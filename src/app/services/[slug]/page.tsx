@@ -3,25 +3,21 @@ import { TECH_SERVICES, UTILITY_SERVICES } from '../../../data/services';
 import Link from 'next/link';
 import { ArrowLeft, Zap } from 'lucide-react';
 
-// THE FIX: This tells Next.js exactly which static pages to pre-build!
 export function generateStaticParams() {
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
-  return allServices.map((service) => {
-    // We grab the end of the link (e.g., "it-staffing" from "/services/it-staffing")
+  // THE FIX: Added (service: any) right here!
+  return allServices.map((service: any) => {
     const slug = service.link.replace('/services/', '');
     return { slug: slug };
   });
 }
 
 export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
-  // Combine data to search through it
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
-  // Find the exact service based on the URL the user clicked
   const serviceData = allServices.find((s: any) => s.link === `/services/${params.slug}`);
 
-  // If the link doesn't match our data, show a 404
   if (!serviceData) {
     notFound();
   }
