@@ -3,11 +3,11 @@ import { TECH_SERVICES, UTILITY_SERVICES } from '../../../data/services';
 import Link from 'next/link';
 import { ArrowLeft, Zap } from 'lucide-react';
 
+// 1. THIS FUNCTION PREVENTS THE EXPORT ERROR (DO NOT DELETE)
 export function generateStaticParams() {
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
-  // THE FIX: We filter out any service that doesn't have a link FIRST, 
-  // so .replace() never crashes on an undefined value!
+  // This filters out any bad links so the build never crashes
   return allServices
     .filter((service: any) => service.link && service.link.startsWith('/services/'))
     .map((service: any) => {
@@ -16,6 +16,7 @@ export function generateStaticParams() {
     });
 }
 
+// 2. THIS IS THE ACTUAL PAGE COMPONENT
 export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
