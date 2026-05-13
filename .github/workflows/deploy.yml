@@ -3,7 +3,7 @@ name: Deploy Sai Techverse to MilesWeb
 on:
   push:
     branches:
-      - main  # Or 'master', depending on your default branch
+      - main  
 
 jobs:
   web-deploy:
@@ -12,12 +12,12 @@ jobs:
 
     steps:
       - name: Get latest code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # UPDATED
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # UPDATED
         with:
-          node-version: '20' # Match this to your local Node version
+          node-version: '22' # UPDATED
 
       - name: Install Dependencies
         run: npm install
@@ -32,4 +32,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
-          server-dir: ./
+          server-dir: ./ # Remember to change to ./ if your FTP goes directly here
