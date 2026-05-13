@@ -7,8 +7,8 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
   // Combine data to search through it
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
-  // Find the exact service based on the URL the user clicked
-  const serviceData = allServices.find(s => s.link === `/services/${params.slug}`);
+  // THE FIX: Added (s: any) to tell strict TypeScript to relax!
+  const serviceData = allServices.find((s: any) => s.link === `/services/${params.slug}`);
 
   // If the link doesn't match our data, show a 404
   if (!serviceData) {
@@ -45,7 +45,7 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4">
-             {serviceData.features.map((feature, i) => (
+             {serviceData.features.map((feature: string, i: number) => (
                 <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/5 p-4 rounded-2xl text-xs font-bold uppercase tracking-wide">
                    <div className="w-2 h-2 rounded-full bg-[#00ffff]" />
                    {feature}
