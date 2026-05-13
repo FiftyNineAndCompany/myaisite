@@ -2,80 +2,15 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Users, 
-  Cpu, 
-  Building, 
-  FileCheck, 
-  Network, 
-  Search, 
-  ArrowRight,
-  Shield,
-  Zap,
-  Globe
-} from 'lucide-react';
+// 1. We import the real data instead of hardcoding it!
+import { TECH_SERVICES, UTILITY_SERVICES } from '../../data/services'; 
+import { ArrowRight, Zap } from 'lucide-react';
 import Link from 'next/link';
 
-const DETAILED_SERVICES = [
-  {
-    id: 'staffing',
-    title: 'Staffing Solutions',
-    subtitle: 'Strategic Engineering Talent',
-    description: 'We provide specialized engineering professionals to bridge your skill gaps.',
-    features: ['Third-party Payroll', 'Technical Screening', 'Quick Deployment'],
-    icon: Users,
-    color: 'from-blue-500/20'
-  },
-  {
-    id: 'testing',
-    title: 'Testing Services',
-    subtitle: 'Quality Assurance & Protocols',
-    description: 'Comprehensive testing for UI/UX, SaaS, IoT, and Network Protocols.',
-    features: ['End to end manual and automation Testing',],
-    icon: FileCheck,
-    color: 'from-cyan-500/20'
-  },
-  {
-    id: 'dev',
-    title: 'IT & AI Development',
-    subtitle: 'Next-Gen Engineering',
-    description: 'Electronics, IoT, and AI-powered software development for industry and academia.',
-    features: ['IoT Ecosystems', 'AI Integration', 'Web Architecture'],
-    icon: Cpu,
-    color: 'from-purple-500/20'
-  },
-  {
-    id: 'bpo',
-    title: 'BPO Services',
-    subtitle: 'Operational Excellence',
-    description: 'Managing inbound and outbound projects with high-efficiency consultancy.',
-    features: ['Process Optimization', '24/7 Support', 'Scalable Teams'],
-    icon: Network,
-    color: 'from-emerald-500/20'
-  },
-  {
-    id: 'real-estate',
-    title: 'Property in your budget Solutions',
-    subtitle: 'Property in your budget Solutions',
-    description: 'Prime focus on low budget, pocket frindly properties.',
-    features: ['Direct Connect', 'Visit Assistance'],
-    icon: Building,
-    link: '/real-estate',
-    color: 'from-orange-500/20'
-  },
-  {
-    id: 'plagiarism',
-    title: 'Plagiarism Express',
-    subtitle: 'Academic Integrity',
-    description: 'High-speed Turnitin reports for thesis, research papers, and articles.',
-    features: ['AI Detection', '24h Delivery', 'Strict Privacy'],
-    icon: Search,
-    link: '/plagiarism',
-    color: 'from-red-500/20'
-  }
-];
-
 export default function ServicesPage() {
+  // 2. We combine both categories into one single list for the grid
+  const ALL_SERVICES = [...TECH_SERVICES, ...UTILITY_SERVICES];
+
   return (
     <div className="min-h-screen bg-black text-white pt-32 pb-20">
       <div className="container mx-auto px-6">
@@ -100,7 +35,8 @@ export default function ServicesPage() {
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {DETAILED_SERVICES.map((service, index) => (
+          {/* 3. Map over the combined real data */}
+          {ALL_SERVICES.map((service, index) => (
             <motion.div
               key={service.id}
               initial={{ opacity: 0, y: 20 }}
@@ -118,14 +54,15 @@ export default function ServicesPage() {
               <p className="text-white/60 text-sm leading-relaxed mb-6">{service.description}</p>
               
               <ul className="space-y-3 mb-8">
-                {service.features.map(feature => (
-                  <li key={feature} className="flex items-center gap-2 text-xs font-bold text-white/80">
+                {service.features.map((feature, i) => (
+                  <li key={i} className="flex items-center gap-2 text-xs font-bold text-white/80">
                     <div className="w-1 h-1 rounded-full bg-[#00ffff]" />
                     {feature}
                   </li>
                 ))}
               </ul>
 
+              {/* Fixed Link Logic: If no specific link is provided, safely fall back to the Contact page */}
               {service.link ? (
                 <Link href={service.link} className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all">
                   EXPLORE PORTAL <ArrowRight size={14} />
