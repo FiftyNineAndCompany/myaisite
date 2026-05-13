@@ -29,7 +29,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_SERVER_USERNAME }}
-          password: ${{ secrets.FTP_SERVER_PASSWORD }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
           server-dir: ./ # Remember to change to ./ if your FTP goes directly here
