@@ -19,10 +19,10 @@ export default function Footer() {
           {/* 1. Company Info */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold">
-              S<span className="text-[#00ffff] drop-shadow-[0_0_10px_rgba(0,255,255,0.8)]">AI</span> TECHVERSE
+              S<span className="text-[#00ffff] drop-shadow-[0_0_10px_rgba(0,255,255,0.8)]">AI</span> TECHVERSE SOLUTIONS
             </h3>
             <p className="text-white/90 text-sm leading-relaxed font-medium">
-              Empowering Engineers via IOBE & providing Smart Property Engineering for PGs, Flats, and Bungalows.
+            Technology with Purpose. Service with Dedication.
             </p>
           </div>
 

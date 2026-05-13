@@ -9,20 +9,38 @@ export default function AboutPage() {
     <div className="min-h-screen bg-black text-white pt-32 pb-20">
       <div className="container mx-auto px-6">
         
-        {/* 1. VISION & MISSION SECTION */}
-        <section className="mb-24 text-center">
+       {/* 1. VISION & MISSION SECTION */}
+       <section className="mb-24 text-center mt-10"> {/* mt-10 pushes it below the navbar */}
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="text-5xl md:text-6xl font-bold mb-6"
           >
             Engineering the <span className="text-[#00ffff]">Future</span>
           </motion.h1>
-          <p className="max-w-3xl mx-auto text-white/60 text-lg leading-relaxed">
-            SAI TECHVERSE SOLUTIONS is dedicated to connecting engineers with global opportunities. 
-            We bridge the gap between technical excellence and business needs, focusing on 
-            India's growth in the AI and Engineering sectors.
-          </p>
+          
+          <div className="max-w-3xl mx-auto text-white/60 text-lg leading-relaxed space-y-6">
+            <p>
+              SAI TECHVERSE SOLUTIONS is dedicated to connecting engineers with global opportunities. 
+              We bridge the gap between technical excellence and business needs, focusing on 
+              India's growth in the AI and Engineering sectors.
+            </p>
+
+            <h3 className="text-white font-bold text-2xl pt-6 pb-2">Our Ecosystem of Services</h3>
+
+            <p>
+              <strong className="text-[#00ffff]">Ethical Innovation & Engineering:</strong> From cutting-edge AI Development to rigorous End-to-End Testing, we build and validate systems that seek the absolute truth in performance. We take on your outsourced projects with the highest standards of quality and right action.
+            </p>
+
+            <p>
+              <strong className="text-[#00ffff]">Mindful Customer & Tech Support:</strong> Our BPO solutions—including inbound/outbound calling and dedicated customer and tech support—are handled with empathy, patience, and a genuine desire to help your customers.
+            </p>
+
+            <p>
+              <strong className="text-[#00ffff]">Purpose-Driven Staffing:</strong> We connect you with talent that aligns not just with your technical needs, but with your company’s culture and vision, building harmonious teams for lasting success.
+            </p>
+          </div>
         </section>
 
         {/* 2. CEO & FOUNDER SECTION */}
