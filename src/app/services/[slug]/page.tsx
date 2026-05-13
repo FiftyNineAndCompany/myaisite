@@ -6,11 +6,14 @@ import { ArrowLeft, Zap } from 'lucide-react';
 export function generateStaticParams() {
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
-  // THE FIX: Added (service: any) right here!
-  return allServices.map((service: any) => {
-    const slug = service.link.replace('/services/', '');
-    return { slug: slug };
-  });
+  // THE FIX: We filter out any service that doesn't have a link FIRST, 
+  // so .replace() never crashes on an undefined value!
+  return allServices
+    .filter((service: any) => service.link && service.link.startsWith('/services/'))
+    .map((service: any) => {
+      const slug = service.link.replace('/services/', '');
+      return { slug: slug };
+    });
 }
 
 export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
