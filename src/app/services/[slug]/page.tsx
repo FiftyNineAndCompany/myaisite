@@ -3,11 +3,11 @@ import { TECH_SERVICES, UTILITY_SERVICES } from '../../../data/services';
 import Link from 'next/link';
 import { ArrowLeft, Zap } from 'lucide-react';
 
-// 1. THIS FUNCTION PREVENTS THE EXPORT ERROR (DO NOT DELETE)
-export function generateStaticParams() {
+// 1. DYNAMIC STATIC GENERATION (Build-time)
+export async function generateStaticParams() {
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
-  // This filters out any bad links so the build never crashes
+  // Dynamically create a static page for every service that has a valid link
   return allServices
     .filter((service: any) => service.link && service.link.startsWith('/services/'))
     .map((service: any) => {
@@ -16,12 +16,14 @@ export function generateStaticParams() {
     });
 }
 
-// 2. THIS IS THE ACTUAL PAGE COMPONENT
+// 2. THE PAGE COMPONENT
 export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
+  // Find the matching service based on the URL slug
   const serviceData = allServices.find((s: any) => s.link === `/services/${params.slug}`);
 
+  // If someone types a random URL (e.g., /services/pizza), show the 404 page
   if (!serviceData) {
     notFound();
   }
@@ -56,7 +58,8 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4">
-             {serviceData.features.map((feature: string, i: number) => (
+             {/* QA Check: Added optional chaining (?) to prevent map() undefined errors */}
+             {serviceData.features?.map((feature: string, i: number) => (
                 <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/5 p-4 rounded-2xl text-xs font-bold uppercase tracking-wide">
                    <div className="w-2 h-2 rounded-full bg-[#00ffff]" />
                    {feature}
