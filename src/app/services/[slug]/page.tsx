@@ -3,17 +3,15 @@ import { TECH_SERVICES, UTILITY_SERVICES } from '../../../data/services';
 import Link from 'next/link';
 import { ArrowLeft, Zap } from 'lucide-react';
 
-// 1. DYNAMIC STATIC GENERATION (Build-time)
-export async function generateStaticParams() {
-  const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
-  
-  // Dynamically create a static page for every service that has a valid link
-  return allServices
-    .filter((service: any) => service.link && service.link.startsWith('/services/'))
-    .map((service: any) => {
-      const slug = service.link.replace('/services/', '');
-      return { slug: slug };
-    });
+// THE BYPASS: Hardcoded, synchronous, and bulletproof for the compiler
+export function generateStaticParams() {
+  return [
+    { slug: 'software-testing' },
+    { slug: 'it-staffing' },
+    { slug: 'it-ai-development' },
+    { slug: 'bpo-solutions' },
+    { slug: 'plagiarism-express' }
+  ];
 }
 
 // 2. THE PAGE COMPONENT
