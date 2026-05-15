@@ -6,9 +6,7 @@ import { Mail, MessageCircle, MapPin, Clock, Globe, ArrowUpRight } from 'lucide-
 
 export default function ContactPage() {
   // --- 1. WHATSAPP CONFIG ---
-  const whatsappNumber = "+91[YourNumber]"; // 👉 REPLACE WITH YOUR ACTUAL NUMBER
-  const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=Hi%20SAI%20TECHVERSE,%20I'd%20like%20to%20inquire%20about...`;
-
+  const whatsappUrl = "https://wa.me/919123330494?text=Hi%20SAI%20TECHVERSE,%20I%20want%20to%20enquire%20more%20about%20you.";
   // --- 2. WEB3FORMS CONFIG ---
   const [result, setResult] = useState("");
 
