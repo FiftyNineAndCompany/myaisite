@@ -6,7 +6,9 @@ import { TECH_SERVICES, UTILITY_SERVICES } from '../data/services';
 import { 
   ArrowRight, 
   Terminal, 
-  Code2
+  Code2,
+  Briefcase,
+  Handshake
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -25,42 +27,142 @@ export default function HomePage() {
   return (
     <div className="bg-[#020202] text-white selection:bg-[#00ffff] selection:text-black font-sans overflow-x-hidden w-full max-w-[100vw]">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden w-full max-w-[100vw]">
+     {/* 1. HERO SECTION */}
+     <section className="relative min-h-screen flex items-center justify-center overflow-hidden w-full max-w-[100vw] pt-32 pb-20">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         
-        <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center mt-16 md:mt-0 w-full">
+        {/* Removed mt-16 so the pt-32 above handles the spacing safely */}
+        <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center w-full">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 1 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/5 mb-8">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-primary">System Status: Operational</span>
+            {/* The System Status Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00ffff]/30 bg-[#00ffff]/5 mb-8">
+              <span className="w-2 h-2 rounded-full bg-[#00ffff] animate-pulse" />
+              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[#00ffff]">System Status: Operational</span>
             </div>
 
-            {/* THE FIX: Bulletproof Responsive Title with 'block' spans instead of <br> */}
-            <h1 className="text-[32px] sm:text-5xl md:text-7xl lg:text-[90px] font-black tracking-tighter mb-8 leading-[1.1] md:leading-[0.9] uppercase w-full mx-auto">
-              <span className="block">Technology with</span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">Purpose</span>
-              <span className="block mt-2 md:mt-0">Service with</span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">Dedication</span> 
+            {/* THE FIX: Perfectly matched colors and adjusted heights */}
+            <h1 className="text-[32px] sm:text-5xl md:text-7xl lg:text-[85px] font-black tracking-tighter mb-8 leading-[1.1] uppercase w-full mx-auto">
+              {/* Top Half */}
+              <span className="block text-white">Technology with</span>
+              <span className="block text-[#00ffff] drop-shadow-[0_0_25px_rgba(0,255,255,0.3)]">Purpose</span>
+              
+              {/* Bottom Half */}
+              <span className="block mt-6 md:mt-8 text-white">Service with</span>
+              <span className="block text-[#00ffff] drop-shadow-[0_0_25px_rgba(0,255,255,0.3)]">Dedication</span> 
             </h1>
             
+            {/* Terminal Typing Effect */}
             <div className="h-14 md:h-10 px-4 w-full">
               <span className="text-[13px] sm:text-lg md:text-2xl text-white/40 font-mono tracking-tight">
-                <span className="text-primary">root@saitechverse:~$</span> {text}
+                <span className="text-[#00ffff]">root@saitechverse:~$</span> {text}
                 <Cursor cursorStyle="▋" />
               </span>
             </div>
 
+            {/* Bouncing Scroll Line */}
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-20 hidden md:block">
-              <div className="w-[1px] h-12 bg-gradient-to-b from-primary to-transparent" />
+              <div className="w-[1px] h-12 bg-gradient-to-b from-[#00ffff] to-transparent" />
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> 
+
+
+      {/* --- THE IMPACT & MISSION SECTION --- */}
+      <section className="py-24 relative border-t border-white/10">
+          
+          {/* Background Glow Effect */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[#00ffff]/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+          <div className="max-w-4xl mx-auto text-center mb-16 relative z-10">
+            <motion.h4 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-[#00ffff] font-black uppercase tracking-[0.4em] text-xs mb-4"
+            >
+              The India Initiative
+            </motion.h4>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold mb-8 leading-tight"
+            >
+              Transforming Tier 2 & 3 Cities into <br />
+              <span className="text-[#00ffff]">High-Tech Hubs.</span>
+            </motion.h2>
+            
+            <div className="space-y-6 text-white/70 text-lg leading-relaxed max-w-3xl mx-auto">
+              <p>
+                Our mission is to make smaller cities the biggest hubs for AI Development, Testing, Staffing, and BPO. We empower graduates and engineers by connecting them with high-value opportunities closer to home. We understand the challenges you face, and we are here to bridge the gap.
+              </p>
+              <p>
+                In this AI and digital era, talent shouldn't be restricted by geography. We invite tech and non-tech companies alike to partner with us as a trusted vendor. Together, we can modernize the employment landscape and elevate every city into a high-tech powerhouse.
+              </p>
+            </div>
+          </div>
+
+          {/* Dual Call-to-Action Cards */}
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto relative z-10">
+            
+            {/* For Candidates (Replaces navjobportal) */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/5 border border-white/10 p-8 rounded-3xl hover:border-[#00ffff]/50 transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="w-12 h-12 bg-[#00ffff]/10 rounded-xl flex items-center justify-center mb-6">
+                  <Briefcase className="text-[#00ffff]" size={24} />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Work With Us</h3>
+                <p className="text-white/60 mb-8">
+                  Are you a skilled candidate looking for the right opportunity? Don't let geography limit your potential. Connect with us directly to find roles in AI, Testing, and Tech.
+                </p>
+              </div>
+              {/* Replace the XXXXXXXXXX with your WhatsApp Number */}
+              <a 
+                href="https://wa.me/91XXXXXXXXXX?text=Hi%20SAI%20TECHVERSE,%20I%20am%20a%20candidate%20looking%20to%20work%20with%20you."
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-[#00ffff] hover:text-black text-white font-bold py-4 px-6 rounded-xl transition-colors w-full"
+              >
+                WhatsApp Us for Jobs <ArrowRight size={18} />
+              </a>
+            </motion.div>
+
+            {/* For Clients */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-[#00ffff]/5 border border-[#00ffff]/20 p-8 rounded-3xl hover:border-[#00ffff] transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="w-12 h-12 bg-[#00ffff]/20 rounded-xl flex items-center justify-center mb-6">
+                  <Handshake className="text-[#00ffff]" size={24} />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Partner With Us</h3>
+                <p className="text-white/60 mb-8">
+                  Looking to outsource your Testing, Development, Staffing, or BPO needs? Join hands with us as a trusted vendor to access untapped, high-quality talent pools.
+                </p>
+              </div>
+              <a 
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-[#00ffff] hover:bg-white text-black font-bold py-4 px-6 rounded-xl transition-colors w-full"
+              >
+                Outsource Your Services <ArrowRight size={18} />
+              </a>
+            </motion.div>
+
+          </div>
+        </section>
 
       {/* 2. CORE PILLARS */}
       <section className="py-20 md:py-32 relative z-20 w-full">
@@ -265,6 +367,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      
+
+
 
       {/* 6. FOOTER */}
       <footer className="py-12 md:py-20 border-t border-white/5 bg-[#050505] w-full">
