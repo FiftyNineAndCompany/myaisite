@@ -6,7 +6,7 @@ import { Mail, MessageCircle, MapPin, Clock, Globe, ArrowUpRight } from 'lucide-
 
 export default function ContactPage() {
   // --- 1. WHATSAPP CONFIG ---
-  const whatsappNumber = "+91[9123330494]"; // REPLACE WITH YOUR ACTUAL NUMBER
+  const whatsappNumber = "+91[YourNumber]"; // 👉 REPLACE WITH YOUR ACTUAL NUMBER
   const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=Hi%20SAI%20TECHVERSE,%20I'd%20like%20to%20inquire%20about...`;
 
   // --- 2. WEB3FORMS CONFIG ---
@@ -19,7 +19,7 @@ export default function ContactPage() {
     const formData = new FormData(event.currentTarget);
 
     // 👇 PASTE YOUR WEB3FORMS ACCESS KEY ON THIS LINE 👇
-    formData.append("access_key", "d902e1d0-b371-46ed-b066-15da0f0e09d6");
+    formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -89,7 +89,7 @@ export default function ContactPage() {
 
               {/* Email Card */}
               <motion.a 
-                href="mailto:info@saitechverse.com"
+                href="mailto:connect@saitechverse.com"
                 whileHover={{ scale: 1.02 }}
                 className="p-8 rounded-3xl bg-white/5 border border-white/10 flex flex-col justify-between h-64 group hover:border-[#00ffff]/50 transition-colors"
               >
@@ -108,17 +108,21 @@ export default function ContactPage() {
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
               <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
               <form onSubmit={onSubmit} className="space-y-6">
+                
+                {/* Full Width Name Field */}
+                <div>
+                  <label htmlFor="name" className="block text-sm font-bold text-white/80 mb-2">Full Name</label>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    required 
+                    className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#00ffff] transition-colors"
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                {/* Grid for Email and Phone */}
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-bold text-white/80 mb-2">Full Name</label>
-                    <input 
-                      type="text" 
-                      name="name" 
-                      required 
-                      className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#00ffff] transition-colors"
-                      placeholder="John Doe"
-                    />
-                  </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-bold text-white/80 mb-2">Email Address</label>
                     <input 
@@ -129,7 +133,18 @@ export default function ContactPage() {
                       placeholder="john@example.com"
                     />
                   </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-bold text-white/80 mb-2">Phone Number</label>
+                    <input 
+                      type="tel" 
+                      name="phone" 
+                      required 
+                      className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#00ffff] transition-colors"
+                      placeholder="+91 98765 43210"
+                    />
+                  </div>
                 </div>
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-bold text-white/80 mb-2">Your Message</label>
                   <textarea 

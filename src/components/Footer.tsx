@@ -59,7 +59,7 @@ export default function Footer() {
                 <div>
                   <p className="text-white font-bold mb-1">Email:</p>
                   <a 
-                    href="mailto:info@saitechverse.com" 
+                    href="mailto:connect@saitechverse.com" 
                     className="text-white hover:text-[#00ffff] transition-colors text-sm underline underline-offset-4"
                   >
                     connect@saitechverse.com
