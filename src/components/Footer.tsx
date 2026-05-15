@@ -62,7 +62,7 @@ export default function Footer() {
                     href="mailto:info@saitechverse.com" 
                     className="text-white hover:text-[#00ffff] transition-colors text-sm underline underline-offset-4"
                   >
-                    info@saitechverse.com
+                    connect@saitechverse.com
                   </a>
                 </div>
               </div>
