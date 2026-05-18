@@ -388,46 +388,63 @@ export default function HomePage() {
   );
 }
 
-// 4. THE FIXED REUSABLE CARD COMPONENT
+// 4. THE FIXED REUSABLE CARD COMPONENT (Matches the Services page exactly)
 function ServiceCard({ service }: { service: any }) {
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -5 }}
-      className="group relative p-6 md:p-8 rounded-[2rem] border border-white/[0.06] bg-[#0A0A0A] hover:bg-[#0F0F0F] hover:border-white/[0.12] transition-all duration-500 flex flex-col justify-between h-full min-h-[400px] md:min-h-[500px]"
+      className="group relative p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00ffff]/50 transition-all duration-500 flex flex-col justify-between h-full min-h-[400px]"
     >
       <div>
-        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-6 md:mb-8 group-hover:bg-white/[0.05] transition-all">
-          <service.icon className="text-white/40 group-hover:text-white transition-colors" size={20} />
+        {/* Colored Icon Box */}
+        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 border border-white/5`}>
+          <service.icon className="text-[#00ffff]" size={28} />
         </div>
         
-        <h3 className="text-lg md:text-xl font-bold mb-2 uppercase tracking-tight text-white/90">
+        {/* Title (Normal Case to match Services page) */}
+        <h3 className="text-2xl font-bold mb-2 text-white">
           {service.title}
         </h3>
         
-        <p className="text-[#94A3B8] text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] mb-4 md:mb-6">
+        {/* Subtitle (Cyan) */}
+        <p className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-4">
           {service.subtitle}
         </p>
         
-        <p className="text-white/40 text-xs md:text-sm leading-relaxed mb-6 md:mb-8 font-light">
+        {/* Description */}
+        <p className="text-white/60 text-sm leading-relaxed mb-6">
           {service.description}
         </p>
         
-        <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10">
+        {/* Features List with Cyan Bullets */}
+        <ul className="space-y-3 mb-8">
           {service.features?.map((feature: string, i: number) => (
-            <li key={i} className="flex items-start gap-3 text-[10px] md:text-[11px] font-medium text-white/50">
-              <div className="w-1 h-1 rounded-full bg-white/20 mt-1.5 shrink-0 group-hover:bg-white/40 transition-colors" />
+            <li key={i} className="flex items-center gap-2 text-xs font-bold text-white/80">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#00ffff] shrink-0" />
               {feature}
             </li>
           ))}
         </ul>
       </div>
 
-      <Link 
-        href={service.link || "/contact"} 
-        className="w-full py-3 md:py-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] text-center text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300"
-      >
-        {service.link ? "Execute Module _" : "Request Details _"}
-      </Link>
+      {/* Sleek Inline Link (Replaces the blocky grey button) */}
+      <div>
+        {service.link ? (
+          <Link
+            href={service.link}
+            className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max"
+          >
+            INQUIRE NOW <ArrowRight size={14} />
+          </Link>
+        ) : (
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 text-sm font-black border-b border-white/20 pb-1 text-white/40 hover:text-[#00ffff] hover:border-[#00ffff] transition-all w-max"
+          >
+            INQUIRE NOW <ArrowRight size={14} />
+          </Link>
+        )}
+      </div>
     </motion.div>
   );
 }

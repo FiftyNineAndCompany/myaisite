@@ -11,9 +11,9 @@ export default function Header() {
     <nav className="fixed top-0 left-0 w-full z-[100] border-b border-white/5 bg-black/80 backdrop-blur-xl">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         {/* LOGO */}
-        <Link href="/" className="text-2xl font-black tracking-tighter uppercase text-white group">
-          SAI <span className="text-[#00ffff] italic drop-shadow-[0_0_8px_rgba(0,255,255,0.8)] group-hover:drop-shadow-[0_0_15px_rgba(0,255,255,1)] transition-all">TECHVERSE</span>
-        </Link>
+        <h3 className="text-2xl font-bold">
+              S<span className="text-[#00ffff] drop-shadow-[0_0_10px_rgba(0,255,255,0.8)]">AI</span> TECHVERSE SOLUTIONS
+            </h3>
         
         {/* DESKTOP MENU - MANUAL LINKS ONLY */}
         <div className="hidden md:flex items-center gap-8">
