@@ -378,7 +378,7 @@ export default function HomePage() {
   );
 }
 
-// 4. THE FIXED REUSABLE CARD COMPONENT (Matches the Services page exactly)
+// 4. THE FIXED REUSABLE CARD COMPONENT (With Both Buttons!)
 function ServiceCard({ service }: { service: any }) {
   return (
     <motion.div
@@ -391,12 +391,10 @@ function ServiceCard({ service }: { service: any }) {
           <service.icon className="text-[#00ffff]" size={28} />
         </div>
         
-        {/* Title */}
+        {/* Title & Subtitle */}
         <h3 className="text-2xl font-bold mb-2 text-white">
           {service.title}
         </h3>
-        
-        {/* Subtitle */}
         <p className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-4">
           {service.subtitle}
         </p>
@@ -417,21 +415,23 @@ function ServiceCard({ service }: { service: any }) {
         </ul>
       </div>
 
-      {/* Sleek Inline Link */}
-      <div>
-        {service.link ? (
+      {/* THE FIX: TWO BUTTONS (Direct Contact + Details) */}
+      <div className="flex flex-wrap items-center gap-6 mt-4">
+        {/* Primary Action: Straight to Web3Form Contact Page */}
+        <Link
+          href="/contact"
+          className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max"
+        >
+          INQUIRE NOW <ArrowRight size={14} />
+        </Link>
+        
+        {/* Secondary Action: Read the detailed page */}
+        {service.link && (
           <Link
             href={service.link}
-            className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max"
+            className="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-colors"
           >
-            INQUIRE NOW <ArrowRight size={14} />
-          </Link>
-        ) : (
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 text-sm font-black border-b border-white/20 pb-1 text-white/40 hover:text-[#00ffff] hover:border-[#00ffff] transition-all w-max"
-          >
-            INQUIRE NOW <ArrowRight size={14} />
+            Read Details
           </Link>
         )}
       </div>

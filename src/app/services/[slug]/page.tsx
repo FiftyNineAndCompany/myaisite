@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation';
 import { TECH_SERVICES, UTILITY_SERVICES } from '../../../data/services';
 import Link from 'next/link';
 import { ArrowLeft, Zap } from 'lucide-react';
@@ -14,16 +13,27 @@ export function generateStaticParams() {
   ];
 }
 
-// 2. THE PAGE COMPONENT
-export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
+// THE FIX: Added `async` and `Promise` to handle Next.js 15 changes!
+export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  // We must "await" the params before we can read the slug inside them
+  const resolvedParams = await params;
+  const currentSlug = resolvedParams.slug;
+
   const allServices = [...TECH_SERVICES, ...UTILITY_SERVICES];
   
-  // Find the matching service based on the URL slug
-  const serviceData = allServices.find((s: any) => s.link === `/services/${params.slug}`);
+  // Safely check if the link includes our newly awaited slug
+  const serviceData = allServices.find((s: any) => s.link && s.link.includes(currentSlug));
 
-  // If someone types a random URL (e.g., /services/pizza), show the 404 page
   if (!serviceData) {
-    notFound();
+    return (
+      <div className="min-h-screen bg-[#020202] text-white flex flex-col items-center justify-center p-6 text-center pt-32">
+        <h1 className="text-[#00ffff] text-4xl md:text-6xl font-black mb-4 uppercase tracking-tighter">404 // System Error</h1>
+        <p className="text-white/60 mb-8 font-mono">Module not found. We could not locate the data for: <span className="text-[#00ffff]">{currentSlug}</span></p>
+        <Link href="/services" className="px-8 py-4 bg-white/5 border border-white/10 hover:border-[#00ffff] hover:text-[#00ffff] text-white font-black uppercase tracking-widest text-[10px] rounded-full transition-all">
+          Return to Ecosystem _
+        </Link>
+      </div>
+    );
   }
 
   const Icon = serviceData.icon;
@@ -56,7 +66,6 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4">
-             {/* QA Check: Added optional chaining (?) to prevent map() undefined errors */}
              {serviceData.features?.map((feature: string, i: number) => (
                 <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/5 p-4 rounded-2xl text-xs font-bold uppercase tracking-wide">
                    <div className="w-2 h-2 rounded-full bg-[#00ffff]" />

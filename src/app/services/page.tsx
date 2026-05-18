@@ -24,6 +24,7 @@ const DETAILED_SERVICES = [
     description: 'We provide specialized engineering professionals to bridge your skill gaps.',
     features: ['Third-party Payroll', 'Technical Screening', 'Quick Deployment'],
     icon: Users,
+    link: '/services/it-staffing',
     color: 'from-blue-500/20'
   },
   {
@@ -31,8 +32,9 @@ const DETAILED_SERVICES = [
     title: 'Testing Services',
     subtitle: 'Quality Assurance & Protocols',
     description: 'Comprehensive testing for UI/UX, SaaS, IoT, and Network Protocols.',
-    features: ['End to end manual and automation Testing',],
+    features: ['End to end manual and automation Testing'],
     icon: FileCheck,
+    link: '/services/software-testing',
     color: 'from-cyan-500/20'
   },
   {
@@ -42,6 +44,7 @@ const DETAILED_SERVICES = [
     description: 'Electronics, IoT, and AI-powered software development for industry and academia.',
     features: ['IoT Ecosystems', 'AI Integration', 'Web Architecture'],
     icon: Cpu,
+    link: '/services/it-ai-development',
     color: 'from-purple-500/20'
   },
   {
@@ -51,6 +54,7 @@ const DETAILED_SERVICES = [
     description: 'Managing inbound and outbound projects with high-efficiency consultancy.',
     features: ['Process Optimization', '24/7 Support', 'Scalable Teams'],
     icon: Network,
+    link: '/services/bpo-solutions',
     color: 'from-emerald-500/20'
   },
   {
@@ -70,7 +74,7 @@ const DETAILED_SERVICES = [
     description: 'High-speed Turnitin reports for thesis, research papers, and articles.',
     features: ['AI Detection', '24h Delivery', 'Strict Privacy'],
     icon: Search,
-    link: '/plagiarism',
+    link: '/services/plagiarism-express',
     color: 'from-red-500/20'
   }
 ];
@@ -107,34 +111,39 @@ export default function ServicesPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group relative p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00ffff]/50 transition-all duration-500"
+              className="group relative p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00ffff]/50 transition-all duration-500 flex flex-col justify-between"
             >
-              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 border border-white/5`}>
-                <service.icon className="text-[#00ffff]" size={28} />
+              <div>
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 border border-white/5`}>
+                  <service.icon className="text-[#00ffff]" size={28} />
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
+                <p className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-4">{service.subtitle}</p>
+                <p className="text-white/60 text-sm leading-relaxed mb-6">{service.description}</p>
+                
+                <ul className="space-y-3 mb-8">
+                  {service.features.map(feature => (
+                    <li key={feature} className="flex items-center gap-2 text-xs font-bold text-white/80">
+                      <div className="w-1 h-1 rounded-full bg-[#00ffff]" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
-              <p className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-4">{service.subtitle}</p>
-              <p className="text-white/60 text-sm leading-relaxed mb-6">{service.description}</p>
-              
-              <ul className="space-y-3 mb-8">
-                {service.features.map(feature => (
-                  <li key={feature} className="flex items-center gap-2 text-xs font-bold text-white/80">
-                    <div className="w-1 h-1 rounded-full bg-[#00ffff]" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
 
-              {service.link ? (
-                <Link href={service.link} className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all">
-                  EXPLORE PORTAL <ArrowRight size={14} />
-                </Link>
-              ) : (
-                <Link href="/contact" className="inline-flex items-center gap-2 text-sm font-black border-b border-white/20 pb-1 text-white/40 hover:text-[#00ffff] hover:border-[#00ffff] transition-all">
+              {/* TWO BUTTONS: Contact First, Details Second */}
+              <div className="flex flex-wrap items-center gap-6 mt-auto pt-4">
+                <Link href="/contact" className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max">
                   INQUIRE NOW <ArrowRight size={14} />
                 </Link>
-              )}
+                
+                {service.link && (
+                  <Link href={service.link} className="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-colors">
+                    Read Details
+                  </Link>
+                )}
+              </div>
             </motion.div>
           ))}
         </div>
