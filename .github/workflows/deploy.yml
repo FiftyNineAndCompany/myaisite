@@ -33,3 +33,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
           server-dir: ./ # Remember to change to ./ if your FTP goes directly here
+          protocol: ftp                 # 👇 ADD THIS LINE
+          security: loose               # 👇 ADD THIS LINE
