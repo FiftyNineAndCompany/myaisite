@@ -31,7 +31,6 @@ export default function HomePage() {
      <section className="relative min-h-screen flex items-center justify-center overflow-hidden w-full max-w-[100vw] pt-32 pb-20">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         
-        {/* Removed mt-16 so the pt-32 above handles the spacing safely */}
         <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center w-full">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
@@ -44,13 +43,11 @@ export default function HomePage() {
               <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[#00ffff]">System Status: Operational</span>
             </div>
 
-            {/* THE FIX: Perfectly matched colors and adjusted heights */}
+            {/* Responsive Title */}
             <h1 className="text-[32px] sm:text-5xl md:text-7xl lg:text-[85px] font-black tracking-tighter mb-8 leading-[1.1] uppercase w-full mx-auto">
-              {/* Top Half */}
               <span className="block text-white">Technology with</span>
               <span className="block text-[#00ffff] drop-shadow-[0_0_25px_rgba(0,255,255,0.3)]">Purpose</span>
               
-              {/* Bottom Half */}
               <span className="block mt-6 md:mt-8 text-white">Service with</span>
               <span className="block text-[#00ffff] drop-shadow-[0_0_25px_rgba(0,255,255,0.3)]">Dedication</span> 
             </h1>
@@ -108,32 +105,34 @@ export default function HomePage() {
           </div>
 
           {/* Dual Call-to-Action Cards */}
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto relative z-10">
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto relative z-10 mb-8">
             
-            {/* For Candidates (Replaces navjobportal) */}
+            {/* For Candidates */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-white/5 border border-white/10 p-8 rounded-3xl hover:border-[#00ffff]/50 transition-all flex flex-col justify-between"
+              className="group relative p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00ffff]/50 transition-all duration-500 flex flex-col justify-between"
             >
               <div>
-                <div className="w-12 h-12 bg-[#00ffff]/10 rounded-xl flex items-center justify-center mb-6">
-                  <Briefcase className="text-[#00ffff]" size={24} />
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 flex items-center justify-center mb-6 border border-white/5">
+                  <Briefcase className="text-[#00ffff]" size={28} />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Work With Us</h3>
-                <p className="text-white/60 mb-8">
+                
+                <h3 className="text-2xl font-bold mb-2 text-white">Work With Us</h3>
+                <p className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-4">For Candidates</p>
+                <p className="text-white/60 text-sm leading-relaxed mb-8">
                   Are you a skilled candidate looking for the right opportunity? Don't let geography limit your potential. Connect with us directly to find roles in AI, Testing, and Tech.
                 </p>
               </div>
-              {/* Replace the XXXXXXXXXX with your WhatsApp Number */}
+              
               <a 
-                href="https://wa.me/91XXXXXXXXXX?text=Hi%20SAI%20TECHVERSE,%20I%20am%20a%20candidate%20looking%20to%20work%20with%20you."
+                href="https://wa.me/9123330494?text=Hi%20SAI%20TECHVERSE,%20I%20am%20a%20candidate%20looking%20to%20work%20with%20you."
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-[#00ffff] hover:text-black text-white font-bold py-4 px-6 rounded-xl transition-colors w-full"
+                className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max mt-auto"
               >
-                WhatsApp Us for Jobs <ArrowRight size={18} />
+                WHATSAPP US FOR JOBS <ArrowRight size={14} />
               </a>
             </motion.div>
 
@@ -142,82 +141,79 @@ export default function HomePage() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-[#00ffff]/5 border border-[#00ffff]/20 p-8 rounded-3xl hover:border-[#00ffff] transition-all flex flex-col justify-between"
+              className="group relative p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00ffff]/50 transition-all duration-500 flex flex-col justify-between"
             >
               <div>
-                <div className="w-12 h-12 bg-[#00ffff]/20 rounded-xl flex items-center justify-center mb-6">
-                  <Handshake className="text-[#00ffff]" size={24} />
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 flex items-center justify-center mb-6 border border-white/5">
+                  <Handshake className="text-[#00ffff]" size={28} />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Partner With Us</h3>
-                <p className="text-white/60 mb-8">
+
+                <h3 className="text-2xl font-bold mb-2 text-white">Partner With Us</h3>
+                <p className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-4">For Clients</p>
+                <p className="text-white/60 text-sm leading-relaxed mb-8">
                   Looking to outsource your Testing, Development, Staffing, or BPO needs? Join hands with us as a trusted vendor to access untapped, high-quality talent pools.
                 </p>
               </div>
+              
               <a 
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-[#00ffff] hover:bg-white text-black font-bold py-4 px-6 rounded-xl transition-colors w-full"
+                className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max mt-auto"
               >
-                Outsource Your Services <ArrowRight size={18} />
+                OUTSOURCE SERVICES <ArrowRight size={14} />
               </a>
             </motion.div>
-
           </div>
-        </section>
 
-      {/* 2. CORE PILLARS */}
-      <section className="py-20 md:py-32 relative z-20 w-full">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 container mx-auto px-6">
             
             {/* Corporate Pillar */}
             <motion.div 
-              whileHover={{ y: -10 }} 
-              className="p-8 md:p-12 rounded-[3rem] md:rounded-[4rem] border border-white/5 bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-3xl flex flex-col justify-between group transition-all"
+              whileHover={{ y: -5 }} 
+              className="group relative p-8 md:p-12 rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00ffff]/50 transition-all duration-500 flex flex-col justify-between"
             >
               <div>
-                <div className="flex justify-between items-start mb-12">
-                   <div className="p-4 bg-black rounded-2xl border border-white/10 group-hover:border-primary transition-colors">
-                      <Terminal className="text-primary" size={32} />
+                <div className="flex justify-between items-start mb-8">
+                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 flex items-center justify-center border border-white/5">
+                      <Terminal className="text-[#00ffff]" size={32} />
                    </div>
-                   <span className="text-[10px] font-mono text-white/20">01 // B2B</span>
+                   <span className="text-[10px] font-mono text-[#00ffff] uppercase tracking-widest border border-[#00ffff]/30 px-3 py-1 rounded-full bg-[#00ffff]/5">01 // B2B</span>
                 </div>
-                <h3 className="text-3xl md:text-4xl font-black mb-6 uppercase tracking-tighter">Corporate<br/>Services</h3>
-                <p className="text-white/40 leading-relaxed mb-8 max-w-sm text-sm md:text-base">
+                <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">Corporate Services</h3>
+                <p className="text-white/60 text-base leading-relaxed mb-8 max-w-sm">
                   From Engineering BPO and Staffing to AI Solutions. We provide the technical backbone for modern enterprises.
                 </p>
               </div>
-              <Link href="/services" className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px] group-hover:gap-5 transition-all">
-                Execute Request <ArrowRight size={14} />
+              <Link href="/services" className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max mt-auto">
+                EXECUTE REQUEST <ArrowRight size={14} />
               </Link>
             </motion.div>
 
             {/* NavJobPortal Pillar */}
             <motion.div 
-              whileHover={{ y: -10 }} 
-              className="p-8 md:p-12 rounded-[3rem] md:rounded-[4rem] border border-white/5 bg-[#0A0A0A] backdrop-blur-3xl flex flex-col justify-between group transition-all"
+              whileHover={{ y: -5 }} 
+              className="group relative p-8 md:p-12 rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-white/30 transition-all duration-500 flex flex-col justify-between"
             >
               <div>
-                <div className="flex justify-between items-start mb-12">
-                   <div className="p-4 bg-black rounded-2xl border border-white/[0.06]">
-                      <Code2 className="text-white/40" size={32} />
+                <div className="flex justify-between items-start mb-8">
+                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/5 flex items-center justify-center border border-white/5">
+                      <Code2 className="text-white/40 group-hover:text-white transition-colors" size={32} />
                    </div>
-                   <span className="text-[10px] font-mono text-white/20">02 // PRODUCT</span>
+                   <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 rounded-full">02 // PRODUCT</span>
                 </div>
-                <h3 className="text-3xl md:text-4xl font-black mb-6 uppercase tracking-tighter text-white/50">NavJobPortal</h3>
-                <p className="text-white/30 leading-relaxed mb-8 max-w-sm text-sm md:text-base">
+                <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">NavJobPortal</h3>
+                <p className="text-white/50 text-base leading-relaxed mb-8 max-w-sm">
                   Based on skills, regardless of percentage. Join the Internet of Budding Engineers (IOBE) for expert placement.
                 </p>
               </div>
-              <button 
-                disabled
-                className="w-full py-4 md:py-5 bg-white/5 text-white/40 border border-white/10 rounded-full text-[10px] md:text-[11px] font-black uppercase tracking-widest cursor-not-allowed transition-all shadow-none relative z-30"
-              >
-                Module Coming Soon _
-              </button>
+              {/* Disabled Inline Link */}
+              <div className="inline-flex items-center gap-2 text-sm font-black border-b border-white/20 pb-1 text-white/40 cursor-not-allowed w-max mt-auto">
+                MODULE COMING SOON _
+              </div>
             </motion.div>
           </div>
-        </div>
+      {/* THE FIX: Added the missing closing tag right here! */}
       </section>
+
 
       {/* --- 2. CORE ENGINEERING SECTION --- */}
       <section id="engineering" className="py-20 md:py-32 bg-[#050505] scroll-mt-20 w-full">
@@ -283,7 +279,6 @@ export default function HomePage() {
             Engineering the <span className="text-[#00ffff]">Future</span>
           </motion.h1>
           
-          {/* THE FIX: Removed 'text-left md:text-center' and replaced with just 'text-center' */}
           <div className="text-white/75 text-base md:text-lg leading-relaxed md:leading-loose space-y-10 text-center bg-white/[0.02] border border-white/5 rounded-[2rem] p-8 md:p-12 shadow-2xl">
             <p className="text-lg md:text-xl font-medium text-white/90">
               SAI TECHVERSE SOLUTIONS is dedicated to connecting engineers with global opportunities. 
@@ -316,7 +311,6 @@ export default function HomePage() {
       </section>
 
       {/* 5. CEO SECTION - LEADERSHIP */}
-      {/* Changed ID to 'leadership' so 'about' stops jumping here */}
       <section id="leadership" className="py-20 md:py-32 bg-[#020202] scroll-mt-24 relative overflow-hidden w-full">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[20vw] md:text-[15vw] font-black text-white/[0.02] select-none pointer-events-none uppercase tracking-tighter">
           Mission
@@ -368,10 +362,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      
-
-
-
       {/* 6. FOOTER */}
       <footer className="py-12 md:py-20 border-t border-white/5 bg-[#050505] w-full">
          <div className="container mx-auto px-6 text-center">
@@ -401,12 +391,12 @@ function ServiceCard({ service }: { service: any }) {
           <service.icon className="text-[#00ffff]" size={28} />
         </div>
         
-        {/* Title (Normal Case to match Services page) */}
+        {/* Title */}
         <h3 className="text-2xl font-bold mb-2 text-white">
           {service.title}
         </h3>
         
-        {/* Subtitle (Cyan) */}
+        {/* Subtitle */}
         <p className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-4">
           {service.subtitle}
         </p>
@@ -416,7 +406,7 @@ function ServiceCard({ service }: { service: any }) {
           {service.description}
         </p>
         
-        {/* Features List with Cyan Bullets */}
+        {/* Features List */}
         <ul className="space-y-3 mb-8">
           {service.features?.map((feature: string, i: number) => (
             <li key={i} className="flex items-center gap-2 text-xs font-bold text-white/80">
@@ -427,7 +417,7 @@ function ServiceCard({ service }: { service: any }) {
         </ul>
       </div>
 
-      {/* Sleek Inline Link (Replaces the blocky grey button) */}
+      {/* Sleek Inline Link */}
       <div>
         {service.link ? (
           <Link
