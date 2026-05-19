@@ -65,15 +65,23 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             {serviceData.description}
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-             {serviceData.features?.map((feature: string, i: number) => (
-                <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/5 p-4 rounded-2xl text-xs font-bold uppercase tracking-wide">
-                   <div className="w-2 h-2 rounded-full bg-[#00ffff]" />
-                   {feature}
+          {/* THE NEW FIX: Renders your sentences as a beautiful list! */}
+          <div className="max-w-3xl mb-12 space-y-4">
+            {serviceData.detailedDescription ? (
+              serviceData.detailedDescription.map((paragraph: string, idx: number) => (
+                <div key={idx} className="flex items-start gap-4 bg-white/5 border border-white/5 p-4 rounded-2xl">
+                  <div className="w-2 h-2 rounded-full bg-[#00ffff] shrink-0 mt-2" />
+                  <p className="text-white/80 text-lg leading-relaxed">
+                    {paragraph}
+                  </p>
                 </div>
-             ))}
+              ))
+            ) : (
+              <p className="text-white/60 text-lg leading-relaxed">
+                {serviceData.description}
+              </p>
+            )}
           </div>
-        </div>
 
         {/* Dynamic Call to Action */}
         <div className="bg-[#00ffff] rounded-[2rem] p-8 flex flex-col sm:flex-row items-center justify-between text-black gap-6">
