@@ -8,7 +8,11 @@ import {
   Terminal, 
   Code2,
   Briefcase,
-  Handshake
+  Handshake,
+  CheckCircle2, // NEW
+  Clock,        // NEW
+  Award,        // NEW
+  Star          // NEW
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -214,6 +218,40 @@ export default function HomePage() {
       {/* THE FIX: Added the missing closing tag right here! */}
       </section>
 
+{/* --- NEW: QUALITY & TRUST METRICS --- */}
+<section className="py-12 border-t border-white/5 bg-black relative z-20">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { icon: CheckCircle2, text: "100% Efficient Services" },
+              { icon: Clock, text: "On-Time Delivery" },
+              { icon: Award, text: "Quality is First Priority" },
+              { icon: Star, text: "Top Client Appreciations" }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="group flex flex-col sm:flex-row items-center sm:items-start gap-4 bg-white/5 border border-white/10 p-6 rounded-3xl hover:border-[#00ffff]/50 hover:bg-[#00ffff]/5 transition-all cursor-default text-center sm:text-left"
+              >
+                <div className="p-3 rounded-2xl bg-black/50 text-[#00ffff] shadow-[0_0_15px_rgba(0,255,255,0.1)] group-hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-shadow">
+                  <item.icon size={28} />
+                </div>
+                <div className="flex items-center h-full">
+                  <p className="text-white/90 font-black text-sm md:text-base leading-tight uppercase tracking-tight">
+                    {item.text}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
 
       {/* --- 2. CORE ENGINEERING SECTION --- */}
       <section id="engineering" className="py-20 md:py-32 bg-[#050505] scroll-mt-20 w-full">
@@ -378,16 +416,22 @@ export default function HomePage() {
   );
 }
 
-// 4. THE FIXED REUSABLE CARD COMPONENT (With Both Buttons!)
+// 4. THE FIXED REUSABLE CARD COMPONENT (With Dynamic Hover Pop-up!)
 function ServiceCard({ service }: { service: any }) {
   return (
     <motion.div
       whileHover={{ y: -5 }}
       className="group relative p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00ffff]/50 transition-all duration-500 flex flex-col justify-between h-full min-h-[400px]"
     >
+      {/* NEW: Dynamic Hover Pop-up Badge */}
+      <div className="absolute -top-4 -right-4 bg-[#00ffff] text-black text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-[0_0_25px_rgba(0,255,255,0.4)] opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 group-hover:-translate-y-2 transition-all duration-300 z-10 pointer-events-none flex items-center gap-2">
+        <div className="w-1.5 h-1.5 bg-black rounded-full animate-pulse" />
+        Top Quality
+      </div>
+
       <div>
         {/* Colored Icon Box */}
-        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 border border-white/5`}>
+        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 border border-white/5 group-hover:scale-110 transition-transform duration-500`}>
           <service.icon className="text-[#00ffff]" size={28} />
         </div>
         
@@ -415,9 +459,9 @@ function ServiceCard({ service }: { service: any }) {
         </ul>
       </div>
 
-      {/* THE FIX: TWO BUTTONS (Direct Contact + Details) */}
+      {/* TWO BUTTONS (Direct Contact + Details) */}
       <div className="flex flex-wrap items-center gap-6 mt-4">
-        {/* Primary Action: Straight to Web3Form Contact Page */}
+        {/* Primary Action */}
         <Link
           href="/contact"
           className="inline-flex items-center gap-2 text-sm font-black border-b border-[#00ffff] pb-1 text-[#00ffff] hover:gap-4 transition-all w-max"
@@ -425,7 +469,7 @@ function ServiceCard({ service }: { service: any }) {
           INQUIRE NOW <ArrowRight size={14} />
         </Link>
         
-        {/* Secondary Action: Read the detailed page */}
+        {/* Secondary Action */}
         {service.link && (
           <Link
             href={service.link}
