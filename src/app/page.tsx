@@ -43,7 +43,6 @@ export default function HomePage() {
   return (
     <div className="bg-[#020202] text-white selection:bg-[#00ffff] selection:text-black font-sans overflow-x-hidden w-full max-w-[100vw]">
       
-      <div className="bg-[#020202] text-white selection:bg-[#00ffff] selection:text-black font-sans overflow-x-hidden w-full max-w-[100vw]">
       
       {/* --- NEW: AMBIENT FLOATING ORBS (Continuous Motion) --- */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
