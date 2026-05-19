@@ -1,24 +1,7 @@
 import { Users, FileCheck, Cpu, Network, Search, Building } from 'lucide-react';
 
 export const TECH_SERVICES = [
-  {
-    id: 'staffing',
-    title: 'Staffing Solutions',
-    subtitle: 'Strategic Engineering Talent',
-    description: 'Sourcing, vetting, and deploying elite technical and non-technical talent from Tier 2 & 3 cities.',
-    // 👇 YOUR NEW CONTENT
-    detailedDescription: [
-      "We act as a dedicated vendor for your company to provide and hire candidates for your required posts.",
-      "We have a strong database and extensive networking to choose the perfect candidate for your job role.",
-      "We take care of the entire screening process for you.",
-      "We hire candidates specifically for third-party payroll.",
-      "We have our own channels to source highly skilled and budget-friendly candidates for your company."
-    ],
-    features: ['Third-party Payroll', 'Technical Screening', 'Quick Deployment'],
-    icon: Users,
-    link: '/services/it-staffing',
-    color: 'from-blue-500/20'
-  },
+
   {
     id: 'testing',
     title: 'Testing Services',
@@ -59,6 +42,26 @@ export const TECH_SERVICES = [
 ];
 
 export const UTILITY_SERVICES = [
+
+  {
+    id: 'staffing',
+    title: 'Staffing Solutions',
+    subtitle: 'Strategic Engineering Talent',
+    description: 'Sourcing, vetting, and deploying elite technical and non-technical talent from Tier 2 & 3 cities.',
+    // 👇 YOUR NEW CONTENT
+    detailedDescription: [
+      "We act as a dedicated vendor for your company to provide and hire candidates for your required posts.",
+      "We have a strong database and extensive networking to choose the perfect candidate for your job role.",
+      "We take care of the entire screening process for you.",
+      "We hire candidates specifically for third-party payroll.",
+      "We have our own channels to source highly skilled and budget-friendly candidates for your company."
+    ],
+    features: ['Third-party Payroll', 'Technical Screening', 'Quick Deployment'],
+    icon: Users,
+    link: '/services/it-staffing',
+    color: 'from-blue-500/20'
+  },
+  
   {
     id: 'bpo',
     title: 'BPO Services',
