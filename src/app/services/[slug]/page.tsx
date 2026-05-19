@@ -82,6 +82,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               </p>
             )}
           </div>
+          </div>
 
         {/* Dynamic Call to Action */}
         <div className="bg-[#00ffff] rounded-[2rem] p-8 flex flex-col sm:flex-row items-center justify-between text-black gap-6">
