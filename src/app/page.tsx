@@ -1,6 +1,6 @@
 "use client";
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TECH_SERVICES, UTILITY_SERVICES } from '../data/services';
 import { 
@@ -12,12 +12,24 @@ import {
   CheckCircle2, // NEW
   Clock,        // NEW
   Award,        // NEW
-  Star          // NEW
+  Star,         // NEW
+  BellRing
 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function HomePage() {
   const [serviceMenu, setServiceMenu] = React.useState(false);
+
+  const [showNotification, setShowNotification] = useState(false); // NEW
+
+  // NEW: Trigger the pop-up 2.5 seconds after the page loads
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowNotification(true);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
+  
   const [text] = useTypewriter({
     words: [
       'Empowering Tier 2 & 3 City Engineers.',
@@ -31,6 +43,61 @@ export default function HomePage() {
   return (
     <div className="bg-[#020202] text-white selection:bg-[#00ffff] selection:text-black font-sans overflow-x-hidden w-full max-w-[100vw]">
       
+      <div className="bg-[#020202] text-white selection:bg-[#00ffff] selection:text-black font-sans overflow-x-hidden w-full max-w-[100vw]">
+      
+      {/* --- NEW: AMBIENT FLOATING ORBS (Continuous Motion) --- */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <motion.div 
+          animate={{ 
+            y: [0, -40, 0],
+            x: [0, 30, 0],
+            opacity: [0.1, 0.3, 0.1] 
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[10%] left-[15%] w-96 h-96 bg-[#00ffff]/10 blur-[120px] rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            y: [0, 50, 0],
+            x: [0, -40, 0],
+            opacity: [0.1, 0.2, 0.1] 
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-[20%] right-[10%] w-[30rem] h-[30rem] bg-purple-500/10 blur-[150px] rounded-full"
+        />
+      </div>
+
+      {/* --- NEW: LIVE ACTIVITY POP-UP (The "Popping Up" effect) --- */}
+      <motion.div 
+        initial={{ opacity: 0, y: 50, x: 50 }}
+        animate={showNotification ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 50, x: 50 }}
+        transition={{ type: "spring", stiffness: 100, damping: 15 }}
+        className="fixed bottom-8 right-8 z-50 bg-black/80 backdrop-blur-md border border-[#00ffff]/30 p-4 rounded-2xl shadow-[0_0_30px_rgba(0,255,255,0.15)] flex items-start gap-4 max-w-sm"
+      >
+        <div className="p-2 bg-[#00ffff]/10 rounded-full shrink-0 relative">
+          <BellRing className="text-[#00ffff]" size={20} />
+          <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#00ffff] rounded-full border-2 border-black animate-ping" />
+        </div>
+        <div>
+          <h4 className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest mb-1">Live Update</h4>
+          <p className="text-white/90 text-sm font-medium leading-tight mb-2">
+            SAI TECHVERSE is currently onboarding new enterprise partners for Q3.
+          </p>
+          <button 
+            onClick={() => setShowNotification(false)}
+            className="text-white/40 hover:text-white text-xs font-bold transition-colors"
+          >
+            Dismiss
+          </button>
+        </div>
+      </motion.div>
+
+      {/* 1. HERO SECTION */}
+      {/* ... your existing hero section code ... */}
+
+
+
+
      {/* 1. HERO SECTION */}
      <section className="relative min-h-screen flex items-center justify-center overflow-hidden w-full max-w-[100vw] pt-32 pb-20">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
