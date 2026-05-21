@@ -553,7 +553,13 @@ function ServiceCard({ service }: { service: any }) {
 
 // 5. DAILY AI CHALLENGE COMPONENT (Client-side only)
 function DailyChallenge() {
-  const [gameState, setGameState] = useState({
+  // Explicitly tell TypeScript that lastResult can be a boolean OR null
+  const [gameState, setGameState] = useState<{
+    loaded: boolean;
+    hasPlayedToday: boolean;
+    streak: number;
+    lastResult: boolean | null;
+  }>({
     loaded: false,
     hasPlayedToday: false,
     streak: 0,
@@ -665,7 +671,7 @@ function DailyChallenge() {
     };
 
     localStorage.setItem("saitech_ai_game", JSON.stringify(newStats));
-    setGameState({ loaded: true, hasPlayedToday: true, streak: newStreak, lastResult: is, lastResult: isCorrect });
+    setGameState({ loaded: true, hasPlayedToday: true, streak: newStreak, lastResult: isCorrect });
   };
 
   const copyShareText = () => {
