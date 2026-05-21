@@ -605,9 +605,9 @@ function DailyChallenge() {
   ];
 
   // Logic to determine today's question based on the day of the year
-  const getDayOfYear = (date) => {
+  const getDayOfYear = (date : Date) => {
     const start = new Date(date.getFullYear(), 0, 0);
-    const diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+    const diff = date.getTime() - start.getTime() + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
     const oneDay = 1000 * 60 * 60 * 24;
     return Math.floor(diff / oneDay);
   };
