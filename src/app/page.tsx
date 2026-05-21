@@ -676,7 +676,7 @@ function DailyChallenge() {
 
   const copyShareText = () => {
     const emoji = gameState.lastResult ? "🟩" : "🟥";
-    const text = `SAI TECHVERSE Daily Challenge\n${todayDate}\nResult: ${emoji}\nStreak: ${gameState.streak} 🔥\nTest your skills at: yourwebsite.com`;
+    const text = `SAI TECHVERSE Daily Challenge\n${todayDate}\nResult: ${emoji}\nStreak: ${gameState.streak} 🔥\nTest your skills at: saitechverse.com`;
     navigator.clipboard.writeText(text);
     alert("Results copied to clipboard! Share it with your network.");
   };
