@@ -642,7 +642,7 @@ function DailyChallenge() {
 
   }, [todayDate]);
 
-  const handleAnswer = (guess) => {
+  const handleAnswer = (guess: string) => {
     const isCorrect = guess === todaysGame.correctAnswer;
     const savedStats = JSON.parse(localStorage.getItem("saitech_ai_game") || "null") || { streak: 0, history: {} };
     
