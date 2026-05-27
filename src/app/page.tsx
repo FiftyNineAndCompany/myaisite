@@ -100,7 +100,8 @@ export default function HomePage() {
      {/* 1. HERO SECTION */}
      <section className="relative min-h-screen flex items-center justify-center overflow-hidden w-full max-w-[100vw] pt-32 pb-20">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-        
+        {/* PUT THE CUBOID HERE, BEFORE THE TEXT */}
+        <RotatingCuboid />
         <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center w-full">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
@@ -786,5 +787,42 @@ function DailyChallenge() {
         </div>
       </section>
     </>
+  );
+}
+
+// --- NEW: 3D ROTATING WIREFRAME CUBOID ---
+function RotatingCuboid() {
+  const faces = [
+    { transform: 'translateZ(128px)' },                   // Front
+    { transform: 'translateZ(-128px)' },                  // Back
+    { transform: 'translateX(-128px) rotateY(-90deg)' },  // Left
+    { transform: 'translateX(128px) rotateY(90deg)' },    // Right
+    { transform: 'translateY(-128px) rotateX(90deg)' },   // Top
+    { transform: 'translateY(128px) rotateX(-90deg)' },   // Bottom
+  ];
+
+  return (
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 [perspective:1000px] pointer-events-none opacity-20 md:opacity-30 z-0">
+      <motion.div
+        animate={{ rotateX: [0, 360], rotateY: [0, 360], rotateZ: [0, 360] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        className="w-full h-full relative"
+        style={{ transformStyle: 'preserve-3d' }}
+      >
+        {faces.map((face, i) => (
+          <div 
+            key={i} 
+            className="absolute inset-0 border border-[#00ffff]/50 bg-[#00ffff]/[0.01]"
+            style={{ transform: face.transform, transformStyle: 'preserve-3d' }}
+          >
+            {/* The 4 glowing connection dots on each face */}
+            <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-[#00ffff] rounded-full shadow-[0_0_15px_#00ffff]" />
+            <div className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-[#00ffff] rounded-full shadow-[0_0_15px_#00ffff]" />
+            <div className="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-[#00ffff] rounded-full shadow-[0_0_15px_#00ffff]" />
+            <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-[#00ffff] rounded-full shadow-[0_0_15px_#00ffff]" />
+          </div>
+        ))}
+      </motion.div>
+    </div>
   );
 }
