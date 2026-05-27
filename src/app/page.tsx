@@ -13,7 +13,9 @@ import {
   Clock,        // NEW
   Award,        // NEW
   Star,         // NEW
-  BellRing
+  BellRing,
+  MessageSquare, // NEW
+  X              // NEW
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -353,8 +355,7 @@ export default function HomePage() {
           </motion.div>
         </div>
       </div>
-      {/* --- NEW: DAILY AI CHALLENGE --- */}
-      <DailyChallenge />
+     
 
       {/* --- 3. SMART UTILITIES SECTION --- */}
       <section id="utilities" className="py-20 md:py-32 border-t border-white/5 scroll-mt-20 w-full">
@@ -481,6 +482,8 @@ export default function HomePage() {
             <p className="text-[9px] md:text-[10px] font-mono text-white/20">© {new Date().getFullYear()} SAI TECHVERSE // ALL SYSTEMS SECURED</p>
          </div>
       </footer>
+      {/* 👇 NEW: PLUG IN THE CHATBOT HERE 👇 */}
+        <QuizBot />
     </div>
   );
 }
@@ -552,9 +555,9 @@ function ServiceCard({ service }: { service: any }) {
   );
 }
 
-// 5. DAILY AI CHALLENGE COMPONENT (Client-side only)
-function DailyChallenge() {
-  // Explicitly tell TypeScript that lastResult can be a boolean OR null
+ // 5. THE NEW AI CHATBOT QUIZ MODULE
+function QuizBot() {
+  const [isOpen, setIsOpen] = useState(false);
   const [gameState, setGameState] = useState<{
     loaded: boolean;
     hasPlayedToday: boolean;
@@ -567,11 +570,6 @@ function DailyChallenge() {
     lastResult: null,
   });
 
-  const [showGameNotification, setShowGameNotification] = useState(false);
-
-  // --- THE 30-DAY QUESTION DATABASE ---
-  // The system will automatically cycle through this array based on the day of the year.
-  // I have provided the first 5 questions. You can fill in the remaining 25.
   const questionDatabase = [
     {
       scenario: "Development: Which of these Next.js data fetching methods is an AI hallucination?",
@@ -580,56 +578,21 @@ function DailyChallenge() {
       correctAnswer: "B",
       explanation: "Next.js uses `getServerSideProps` or React Server Components, but there is no native `useServerFetch` hook."
     },
-    {
-      scenario: "Testing: Which of these JMeter components is completely fake?",
-      optionA: "Quantum Thread Group",
-      optionB: "Gaussian Random Timer",
-      correctAnswer: "A",
-      explanation: "JMeter has a Gaussian Random Timer, but 'Quantum Thread Group' is AI-generated jargon."
-    },
-    {
-      scenario: "Staffing: Identify the AI-generated resume bullet point.",
-      optionA: "Spearheaded the migration of a legacy monolithic architecture to microservices using Spring Boot and Docker.",
-      optionB: "Synergized hyper-scale algorithmic paradigms to dynamically leverage actionable cross-platform paradigms.",
-      correctAnswer: "B",
-      explanation: "Option B is classic AI 'word salad' that means absolutely nothing technically."
-    },
-    {
-      scenario: "BPO: Which of these is NOT a standard call center metric?",
-      optionA: "Average Handle Time (AHT)",
-      optionB: "Emotional Resonance Quotient (ERQ)",
-      correctAnswer: "B",
-      explanation: "AHT is a core metric. ERQ sounds empathetic but is entirely fabricated by AI."
-    },
-    {
-      scenario: "QA Challenge: Which of these Android ADB logcat outputs is an AI hallucination?",
-      optionA: "E/AndroidRuntime: FATAL EXCEPTION: main\njava.lang.NullPointerException",
-      optionB: "E/AndroidRuntime: KERNEL PANIC: App memory exceeded quantum threshold in ThreadPool_8",
-      correctAnswer: "B",
-      explanation: "Android doesn't throw 'quantum threshold' kernel panics in standard application memory leaks."
-    },
-    // Add remaining 25 questions here to complete the 30-day cycle!
+    // ... (You can add your other questions here just like before)
   ];
 
-  // Logic to determine today's question based on the day of the year
-  const getDayOfYear = (date : Date) => {
+  const getDayOfYear = (date: Date) => {
     const start = new Date(date.getFullYear(), 0, 0);
     const diff = date.getTime() - start.getTime() + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
-    const oneDay = 1000 * 60 * 60 * 24;
-    return Math.floor(diff / oneDay);
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
   };
 
   const todayDate = new Date().toISOString().split('T')[0];
   const dayOfYear = getDayOfYear(new Date());
-  
-  // Modulo operation ensures it loops perfectly over however many questions you have
-  const todaysGameIndex = dayOfYear % questionDatabase.length;
-  const todaysGame = questionDatabase[todaysGameIndex];
+  const todaysGame = questionDatabase[dayOfYear % questionDatabase.length];
 
   useEffect(() => {
-    // Load state from LocalStorage
     const savedStats = JSON.parse(localStorage.getItem("saitech_ai_game") || "null");
-    
     if (savedStats) {
       setGameState({
         loaded: true,
@@ -640,20 +603,12 @@ function DailyChallenge() {
     } else {
       setGameState(prev => ({ ...prev, loaded: true }));
     }
-
-    // Trigger the notification 4 seconds after load
-    const timer = setTimeout(() => {
-      setShowGameNotification(true);
-    }, 4000);
-    return () => clearTimeout(timer);
-
   }, [todayDate]);
 
   const handleAnswer = (guess: string) => {
     const isCorrect = guess === todaysGame.correctAnswer;
     const savedStats = JSON.parse(localStorage.getItem("saitech_ai_game") || "null") || { streak: 0, history: {} };
     
-    // Streak logic
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const yesterdayStr = yesterday.toISOString().split('T')[0];
@@ -665,12 +620,7 @@ function DailyChallenge() {
       newStreak = 0;
     }
 
-    const newStats = {
-      streak: newStreak,
-      lastPlayedDate: todayDate,
-      history: { ...savedStats.history, [todayDate]: isCorrect }
-    };
-
+    const newStats = { streak: newStreak, lastPlayedDate: todayDate, history: { ...savedStats.history, [todayDate]: isCorrect } };
     localStorage.setItem("saitech_ai_game", JSON.stringify(newStats));
     setGameState({ loaded: true, hasPlayedToday: true, streak: newStreak, lastResult: isCorrect });
   };
@@ -679,116 +629,98 @@ function DailyChallenge() {
     const emoji = gameState.lastResult ? "🟩" : "🟥";
     const text = `SAI TECHVERSE Daily Challenge\n${todayDate}\nResult: ${emoji}\nStreak: ${gameState.streak} 🔥\nTest your skills at: saitechverse.com`;
     navigator.clipboard.writeText(text);
-    alert("Results copied to clipboard! Share it with your network.");
-  };
-
-  // Function to smoothly scroll to the game when notification is clicked
-  const scrollToGame = () => {
-    const gameSection = document.getElementById("daily-challenge");
-    if (gameSection) {
-      gameSection.scrollIntoView({ behavior: "smooth" });
-      setShowGameNotification(false);
-    }
+    alert("Results copied to clipboard!");
   };
 
   if (!gameState.loaded) return null;
 
   return (
-    <>
-     
-     {/* --- NEW: JUMP TO GAME NOTIFICATION (MOVED TO SIDE) --- */}
-      <motion.div 
-        initial={{ opacity: 0, x: 100 }}
-        animate={showGameNotification && !gameState.hasPlayedToday ? { opacity: 1, x: 0 } : { opacity: 0, x: 100 }}
-        transition={{ type: "spring", stiffness: 100, damping: 15 }}
-        className="fixed top-28 right-4 md:right-8 z-50 bg-black/90 backdrop-blur-md border border-[#00ffff]/30 p-4 rounded-2xl shadow-[0_0_30px_rgba(0,255,255,0.15)] flex items-start gap-4 max-w-[280px] cursor-pointer hover:border-[#00ffff]/70 transition-all group"
-        onClick={scrollToGame}
-      >
-        <div className="p-2 bg-[#00ffff]/10 rounded-xl shrink-0 mt-0.5 relative">
-            <Terminal className="text-[#00ffff]" size={16} />
-            <div className="absolute -top-1 -right-1 w-2 h-2 bg-[#00ffff] rounded-full animate-ping" />
-        </div>
-        <div>
-            <h4 className="text-white font-bold text-sm mb-1 group-hover:text-[#00ffff] transition-colors">Daily Challenge Active</h4>
-            <p className="text-white/60 text-xs mb-2 leading-tight">Can you spot today's AI hallucination?</p>
-            <div className="text-[#00ffff] text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
-                Play Now <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+    <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end pointer-events-auto">
+      
+      {/* THE CHAT WINDOW */}
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="w-[320px] sm:w-[380px] bg-[#050505] border border-white/10 rounded-2xl shadow-[0_10px_40px_rgba(0,255,255,0.1)] mb-4 overflow-hidden flex flex-col"
+        >
+          {/* Chat Header */}
+          <div className="bg-[#00ffff]/10 border-b border-[#00ffff]/20 p-4 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-[#00ffff] rounded-full text-black"><Terminal size={14} /></div>
+              <div>
+                <h4 className="text-white font-bold text-xs leading-none">SAI TECHVERSE</h4>
+                <p className="text-[#00ffff] text-[9px] font-mono uppercase tracking-widest mt-1">AI Module Online</p>
+              </div>
             </div>
-        </div>
-      </motion.div>
-
-
-      <section id="daily-challenge" className="py-20 bg-[#050505] border-t border-white/5 w-full relative overflow-hidden scroll-mt-20">
-        {/* Background Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#00ffff]/5 blur-[100px] rounded-full pointer-events-none" />
-        
-        <div className="container mx-auto px-6 max-w-3xl relative z-10">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#00ffff]/20 bg-[#00ffff]/5 mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#00ffff] animate-pulse" />
-              <span className="text-[10px] font-mono text-[#00ffff] uppercase tracking-widest">Daily Tech Challenge</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter">
-              Spot the <span className="text-[#00ffff]">AI Fake</span>
-            </h2>
+            <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white transition-colors">
+              <X size={18} />
+            </button>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="p-8 md:p-10 rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm shadow-2xl"
-          >
+          {/* Chat Body */}
+          <div className="p-5 max-h-[400px] overflow-y-auto space-y-4 bg-gradient-to-b from-transparent to-[#00ffff]/[0.02]">
+            
             {!gameState.hasPlayedToday ? (
-              <div>
-                <p className="text-white/90 font-medium mb-6 text-lg border-l-2 border-[#00ffff] pl-4">
-                  {todaysGame.scenario}
-                </p>
-                <div className="space-y-4">
-                  <button 
-                    onClick={() => handleAnswer('A')}
-                    className="w-full text-left p-6 rounded-xl border border-white/10 bg-black/50 hover:border-[#00ffff]/50 hover:bg-[#00ffff]/5 transition-all font-mono text-sm text-white/70 hover:text-white"
-                  >
-                    <span className="text-[#00ffff] mr-4 font-black">A.</span> 
-                    {todaysGame.optionA}
-                  </button>
-                  <button 
-                    onClick={() => handleAnswer('B')}
-                    className="w-full text-left p-6 rounded-xl border border-white/10 bg-black/50 hover:border-[#00ffff]/50 hover:bg-[#00ffff]/5 transition-all font-mono text-sm text-white/70 hover:text-white"
-                  >
-                    <span className="text-[#00ffff] mr-4 font-black">B.</span> 
-                    {todaysGame.optionB}
-                  </button>
+              <>
+                {/* AI Chat Bubble 1 */}
+                <div className="bg-white/5 border border-white/5 rounded-2xl rounded-tl-sm p-3 w-[85%] text-sm text-white/80">
+                  System ready. Can you spot today's AI hallucination?
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <h3 className={`text-4xl font-black mb-2 uppercase ${gameState.lastResult ? 'text-[#00ffff]' : 'text-red-500'}`}>
-                  {gameState.lastResult ? 'Target Verified' : 'System Tricked'}
-                </h3>
-                <p className="text-white/60 mb-8 max-w-lg mx-auto">
-                  {todaysGame.explanation}
-                </p>
                 
-                <div className="inline-block p-6 rounded-2xl bg-black/50 border border-white/10 mb-8">
-                  <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-2">Current Streak</p>
-                  <p className="text-5xl font-black text-white">{gameState.streak} <span className="text-orange-500">🔥</span></p>
+                {/* AI Chat Bubble 2 (The Question) */}
+                <div className="bg-white/5 border border-[#00ffff]/20 rounded-2xl rounded-tl-sm p-4 w-[90%] text-sm text-white font-medium shadow-[0_0_15px_rgba(0,255,255,0.05)]">
+                  {todaysGame.scenario}
                 </div>
 
-                <button 
-                  onClick={copyShareText}
-                  className="mx-auto flex items-center gap-2 text-sm font-black border border-[#00ffff] bg-[#00ffff]/10 px-8 py-4 rounded-full text-[#00ffff] hover:bg-[#00ffff] hover:text-black transition-all"
-                >
-                  <Terminal size={16} /> SHARE RESULTS
-                </button>
-              </div>
+                {/* User Response Buttons */}
+                <div className="flex flex-col gap-2 pt-2 items-end">
+                  <button onClick={() => handleAnswer('A')} className="bg-[#00ffff]/10 hover:bg-[#00ffff]/20 border border-[#00ffff]/30 text-[#00ffff] text-xs p-3 rounded-2xl rounded-tr-sm text-left transition-colors w-[85%]">
+                    <span className="font-black mr-2">A.</span>{todaysGame.optionA}
+                  </button>
+                  <button onClick={() => handleAnswer('B')} className="bg-[#00ffff]/10 hover:bg-[#00ffff]/20 border border-[#00ffff]/30 text-[#00ffff] text-xs p-3 rounded-2xl rounded-tr-sm text-left transition-colors w-[85%]">
+                    <span className="font-black mr-2">B.</span>{todaysGame.optionB}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Results Screen inside Chat */}
+                <div className={`border rounded-2xl rounded-tl-sm p-4 w-[90%] text-sm font-medium ${gameState.lastResult ? 'bg-[#00ffff]/10 border-[#00ffff]/30 text-[#00ffff]' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+                  {gameState.lastResult ? 'TARGET VERIFIED. Excellent work.' : 'SYSTEM TRICKED. That was an AI hallucination.'}
+                </div>
+                
+                <div className="bg-white/5 border border-white/5 rounded-2xl rounded-tl-sm p-4 w-[90%] text-xs text-white/70 leading-relaxed">
+                  {todaysGame.explanation}
+                </div>
+
+                <div className="pt-2 flex justify-between items-center w-full">
+                  <div className="text-[10px] font-mono text-white/40 uppercase">
+                    Streak: <span className="text-white text-sm ml-1 font-bold">{gameState.streak} 🔥</span>
+                  </div>
+                  <button onClick={copyShareText} className="text-[10px] font-black uppercase tracking-widest bg-white text-black px-4 py-2 rounded-full hover:scale-105 transition-transform">
+                    Share
+                  </button>
+                </div>
+              </>
             )}
-          </motion.div>
-        </div>
-      </section>
-    </>
+          </div>
+        </motion.div>
+      )}
+
+      {/* THE FLOATING TRIGGER BUTTON */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="bg-[#00ffff] text-black h-12 px-6 rounded-full font-black text-[10px] uppercase tracking-[0.2em] flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,255,0.3)] hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,255,0.5)] transition-all"
+      >
+        <MessageSquare size={16} /> 
+        {isOpen ? 'Close Module' : 'Daily Challenge'}
+      </button>
+
+    </div>
   );
 }
+
 
 // --- NEW: 3D ROTATING WIREFRAME CUBOID ---
 function RotatingCuboid() {
