@@ -66,7 +66,7 @@ const DETAILED_SERVICES = [
     icon: Building,
     link: '/real-estate',
     color: 'from-orange-500/20'
-  }*/,
+  }*/
   {
     id: 'plagiarism',
     title: 'Plagiarism Express',
