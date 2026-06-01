@@ -181,7 +181,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto relative z-10 mb-8">
             
             {/* For Candidates */}
-            <motion.div 
+            {false && ( <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -207,9 +207,10 @@ export default function HomePage() {
               >
                 WHATSAPP US FOR JOBS <ArrowRight size={14} />
               </a>
-            </motion.div>
-
+            </motion.div> 
+            )}
             {/* For Clients */}
+            {false && ( 
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -235,6 +236,7 @@ export default function HomePage() {
                 OUTSOURCE SERVICES <ArrowRight size={14} />
               </a>
             </motion.div>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 container mx-auto px-6">
@@ -262,26 +264,27 @@ export default function HomePage() {
             </motion.div>
 
             {/* NavJobPortal Pillar */}
+            {/* T12 Jobs Pillar */}
             <motion.div 
               whileHover={{ y: -5 }} 
-              className="group relative p-8 md:p-12 rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-white/30 transition-all duration-500 flex flex-col justify-between"
+              className="group relative p-8 md:p-12 rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-blue-500/50 transition-all duration-500 flex flex-col justify-between"
             >
               <div>
                 <div className="flex justify-between items-start mb-8">
-                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/5 flex items-center justify-center border border-white/5">
-                      <Code2 className="text-white/40 group-hover:text-white transition-colors" size={32} />
+                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 flex items-center justify-center border border-white/5 group-hover:scale-110 transition-transform">
+                      <Code2 className="text-blue-500" size={32} />
                    </div>
-                   <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 rounded-full">02 // PRODUCT</span>
+                   <span className="text-[10px] font-mono text-blue-500 uppercase tracking-widest border border-blue-500/30 px-3 py-1 rounded-full bg-blue-500/10">02 // PRODUCT</span>
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">NavJobPortal</h3>
-                <p className="text-white/50 text-base leading-relaxed mb-8 max-w-sm">
-                  Based on skills, regardless of percentage. Join the Internet of Budding Engineers (IOBE) for expert placement.
+                <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">T12 Jobs</h3>
+                <p className="text-white/60 text-base leading-relaxed mb-8 max-w-sm">
+                  The elite deployment module for immediate joiners. Dedicated portals for candidates and recruiters.
                 </p>
               </div>
-              {/* Disabled Inline Link */}
-              <div className="inline-flex items-center gap-2 text-sm font-black border-b border-white/20 pb-1 text-white/40 cursor-not-allowed w-max mt-auto">
-                MODULE COMING SOON _
-              </div>
+              {/* Active Link to your new T12 Jobs page */}
+              <Link href="/t12-jobs" className="inline-flex items-center gap-2 text-sm font-black border-b border-blue-500 pb-1 text-blue-500 hover:gap-4 transition-all w-max mt-auto">
+                ACCESS PORTAL <ArrowRight size={14} />
+              </Link>
             </motion.div>
           </div>
       {/* THE FIX: Added the missing closing tag right here! */}
@@ -476,7 +479,7 @@ export default function HomePage() {
             <div className="text-xl md:text-2xl font-black tracking-tighter mb-8 uppercase">SAI <span className="text-primary italic">TECHVERSE</span></div>
             <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-12 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
                <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
-               <Link href="/navjobportal" className="hover:text-primary transition-colors">NavJobPortal</Link>
+               <Link href="/t12-jobs" className="hover:text-primary transition-colors">T12 Jobs</Link>
                <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
             </div>
             <p className="text-[9px] md:text-[10px] font-mono text-white/20">© {new Date().getFullYear()} SAI TECHVERSE // ALL SYSTEMS SECURED</p>

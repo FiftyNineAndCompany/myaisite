@@ -63,9 +63,7 @@ export default function Header() {
             )}
           </div>
 
-          <Link href="/navjobportal" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-[#00ffff] transition-colors">
-            // NAVJOBPORTAL
-          </Link>
+          <Link href="/t12-jobs">// T12 JOBS</Link>
           <Link href="/contact" className="px-8 py-3 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all rounded-full text-[10px] font-black uppercase tracking-widest">
             CONTACT _
           </Link>

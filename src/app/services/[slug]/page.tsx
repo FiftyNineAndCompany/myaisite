@@ -96,7 +96,46 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
 
-        {/* 3. Dynamic Call to Action */}
+        {/* 3. NEW TESTING PRICING BLOCK */}
+        {currentSlug === 'software-testing' && (
+          <div className="mb-16 bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl">
+            <h3 className="text-2xl md:text-3xl font-black tracking-tighter uppercase mb-2">
+              Deployment <span className="text-[#00ffff]">Costs</span>
+            </h3>
+            <p className="text-white/50 text-sm mb-8 font-mono">Transparent, per-month / per-QA pricing architecture.</p>
+
+            <div className="grid gap-4">
+              {[
+                { service: 'Drive or Field Testing of Modem', price: '₹27,000', note: 'Excluding driving/fuel charge' },
+                { service: 'WiFi / Bluetooth / GPS Field Testing', price: '₹27,000', note: '' },
+                { service: 'Showroom Visit & Testing (Cars, TVs, Tablets)', price: '₹27,000', note: '' },
+                { service: 'UI / UX Testing', price: '₹27,000', note: '' },
+                { service: 'Android / iOS End-to-End App Testing', price: '₹21,000', note: '' },
+                { service: 'Web / Automation Testing', price: '₹31,000', note: '' },
+                { service: 'Medical Device Testing', price: '₹31,000', note: 'With real patients in hospital environments' },
+                { service: 'IoT Product / SaaS E2E Testing', price: '₹31,000', note: 'With demo or real credentials' },
+              ].map((item, index) => (
+                <div 
+                  key={index} 
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-5 bg-white/[0.02] border border-white/5 rounded-xl hover:bg-white/[0.04] hover:border-[#00ffff]/30 transition-all"
+                >
+                  <div className="mb-4 sm:mb-0">
+                    <h4 className="text-white font-bold uppercase tracking-wide text-sm">{item.service}</h4>
+                    {item.note && <span className="text-white/40 text-xs mt-1 block">{item.note}</span>}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-[1px] w-12 bg-white/10 hidden sm:block"></div>
+                    <div className="text-[#00ffff] font-black text-xl tracking-tight bg-[#00ffff]/10 px-4 py-2 rounded-lg border border-[#00ffff]/20">
+                      {item.price} <span className="text-white/40 text-[10px] uppercase">/ Mo</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 4. Dynamic Call to Action */}
         <div className="bg-[#00ffff] rounded-[2rem] p-8 flex flex-col sm:flex-row items-center justify-between text-black gap-6 hover:shadow-[0_0_40px_rgba(0,255,255,0.2)] transition-shadow">
           <div className="flex items-center gap-4">
             <div className="bg-black p-3 rounded-full"><Zap className="text-[#00ffff]" size={20} /></div>
