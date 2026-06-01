@@ -7,7 +7,7 @@ export default function Footer() {
     { path: '/', label: 'Home' },
     { path: '/#about', label: 'About' }, // Points to CEO section
     { path: '/services', label: 'Services' },
-    { path: '/navjobportal', label: 'NavJobPortal' },
+    { path: '/0notice-jobs', label: '0notice-jobs' },
     { path: '/contact', label: 'Contact' },
   ];
 

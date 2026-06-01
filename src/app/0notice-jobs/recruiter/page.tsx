@@ -18,7 +18,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl || 'https://placeholder.supabase.co', supabaseAnonKey || 'placeholder');
 
-
 export default function RecruiterAccessRequest() {
   const [formData, setFormData] = useState({
     companyName: '',
@@ -42,7 +41,6 @@ export default function RecruiterAccessRequest() {
     setErrorMsg('');
     
     try {
-      // 1. Insert formData into your Supabase database
       const { error } = await supabase
         .from('recruiter_requests')
         .insert([
@@ -53,11 +51,10 @@ export default function RecruiterAccessRequest() {
             location: formData.location,
             salary_budget: formData.salary,
             skills_required: formData.skills,
-            status: 'pending' // Default status for your admin review
+            status: 'pending' 
           }
         ]);
 
-      // 2. Handle Supabase Errors
       if (error) {
         console.error("Supabase Error:", error);
         setErrorMsg(error.message);
@@ -65,11 +62,7 @@ export default function RecruiterAccessRequest() {
         return;
       }
 
-      // 3. Handle Success
       setStatus('success');
-      
-      // Note: Triggering the email to connect@saitechverse.com is best handled 
-      // securely via a Supabase Edge Function or a Next.js API route later!
       
     } catch (err) {
       console.error("System Error:", err);
@@ -78,7 +71,6 @@ export default function RecruiterAccessRequest() {
     }
   };
 
-  // SUCCESS SCREEN UI
   if (status === 'success') {
     return (
       <div className="min-h-screen bg-[#020202] text-white pt-32 pb-20 font-sans flex items-center justify-center relative overflow-hidden">
@@ -101,7 +93,6 @@ export default function RecruiterAccessRequest() {
     );
   }
 
-  // MAIN FORM UI
   return (
     <div className="min-h-screen bg-[#020202] text-white pt-32 pb-20 font-sans flex items-center justify-center relative overflow-hidden">
       
@@ -109,8 +100,9 @@ export default function RecruiterAccessRequest() {
 
       <div className="container mx-auto px-6 max-w-2xl relative z-10">
         
-        <Link href="/t12-jobs" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ffff] mb-8 transition-colors">
-          <ArrowLeft size={14} /> Back to T12 Jobs
+        {/* REBRAND: Updated link route and text */}
+        <Link href="/0notice-jobs" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ffff] mb-8 transition-colors">
+          <ArrowLeft size={14} /> Back to 0notice Jobs
         </Link>
 
         <div className="bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl relative">
@@ -125,7 +117,6 @@ export default function RecruiterAccessRequest() {
             </div>
           </div>
 
-          {/* Error Message Display */}
           {status === 'error' && (
             <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-3">
               <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={16} />

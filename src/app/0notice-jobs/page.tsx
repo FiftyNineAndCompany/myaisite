@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Briefcase, UserPlus, Zap, ArrowRight } from 'lucide-react';
 
-export default function T12JobsLanding() {
+export default function ZeroNoticeJobsLanding() {
   return (
     <div className="min-h-screen bg-[#020202] text-white pt-32 pb-20 font-sans flex items-center justify-center">
       <div className="container mx-auto px-6 max-w-4xl text-center">
@@ -11,9 +11,9 @@ export default function T12JobsLanding() {
           <Zap size={14} /> Immediate Joiners Only
         </div>
         
-        {/* THE FIX 1: Cleaned up the buggy text gradient to a solid cyan */}
+        {/* REBRAND: Changed to 0notice Jobs */}
         <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6">
-          T12 <span className="text-[#00ffff]">Jobs</span>
+          0notice <span className="text-[#00ffff]">Jobs</span>
         </h1>
         
         <p className="text-white/60 text-lg max-w-2xl mx-auto mb-16">
@@ -39,7 +39,6 @@ export default function T12JobsLanding() {
               <p className="text-white/50 text-sm mb-8">Submit your profile for immediate deployment. Quick intake via our secure form.</p>
             </div>
             
-            {/* THE FIX 2: Restructured into a clean inline block to stop text clipping */}
             <div className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest border-b border-[#00ffff]/30 pb-1 text-[#00ffff] w-max mt-auto group-hover:gap-4 transition-all">
               Apply Now <ArrowRight size={14} />
             </div>
@@ -47,7 +46,7 @@ export default function T12JobsLanding() {
 
           {/* Recruiter Portal (Supabase Auth) */}
           <Link 
-            href="/t12-jobs/recruiter" 
+            href="/0notice-jobs/recruiter" 
             className="group bg-[#0A0A0A] border border-white/10 hover:border-blue-500/50 rounded-[2rem] p-8 md:p-10 transition-all text-left relative overflow-hidden flex flex-col justify-between min-h-[300px]"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-[50px] rounded-full pointer-events-none group-hover:bg-blue-500/10 transition-colors"></div>
@@ -59,7 +58,6 @@ export default function T12JobsLanding() {
               <p className="text-white/50 text-sm mb-8">Access our verified Supabase database of immediate joiners and top-tier talent.</p>
             </div>
             
-            {/* THE FIX 2: Restructured into a clean inline block to stop text clipping */}
             <div className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest border-b border-blue-500/30 pb-1 text-blue-500 w-max mt-auto group-hover:gap-4 transition-all">
               Secure Login <ArrowRight size={14} />
             </div>

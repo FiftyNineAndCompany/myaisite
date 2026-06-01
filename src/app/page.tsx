@@ -264,7 +264,7 @@ export default function HomePage() {
             </motion.div>
 
             {/* NavJobPortal Pillar */}
-            {/* T12 Jobs Pillar */}
+            {/* JoinNext Jobs Pillar */}
             <motion.div 
               whileHover={{ y: -5 }} 
               className="group relative p-8 md:p-12 rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-blue-500/50 transition-all duration-500 flex flex-col justify-between"
@@ -276,13 +276,13 @@ export default function HomePage() {
                    </div>
                    <span className="text-[10px] font-mono text-blue-500 uppercase tracking-widest border border-blue-500/30 px-3 py-1 rounded-full bg-blue-500/10">02 // PRODUCT</span>
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">T12 Jobs</h3>
+                <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">0Notice Jobs</h3>
                 <p className="text-white/60 text-base leading-relaxed mb-8 max-w-sm">
                   The elite deployment module for immediate joiners. Dedicated portals for candidates and recruiters.
                 </p>
               </div>
-              {/* Active Link to your new T12 Jobs page */}
-              <Link href="/t12-jobs" className="inline-flex items-center gap-2 text-sm font-black border-b border-blue-500 pb-1 text-blue-500 hover:gap-4 transition-all w-max mt-auto">
+              {/* Active Link to your new JoinNext Jobs page */}
+              <Link href="/0notice-jobs" className="inline-flex items-center gap-2 text-sm font-black border-b border-blue-500 pb-1 text-blue-500 hover:gap-4 transition-all w-max mt-auto">
                 ACCESS PORTAL <ArrowRight size={14} />
               </Link>
             </motion.div>
@@ -479,7 +479,7 @@ export default function HomePage() {
             <div className="text-xl md:text-2xl font-black tracking-tighter mb-8 uppercase">SAI <span className="text-primary italic">TECHVERSE</span></div>
             <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-12 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
                <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
-               <Link href="/t12-jobs" className="hover:text-primary transition-colors">T12 Jobs</Link>
+               <Link href="/0notice-jobs" className="hover:text-primary transition-colors">0notice Jobs</Link>
                <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
             </div>
             <p className="text-[9px] md:text-[10px] font-mono text-white/20">© {new Date().getFullYear()} SAI TECHVERSE // ALL SYSTEMS SECURED</p>

@@ -63,7 +63,11 @@ export default function Header() {
             )}
           </div>
 
-          <Link href="/t12-jobs">// T12 JOBS</Link>
+          {/* REBRAND: Updated Desktop Link with proper styling */}
+          <Link href="/0notice-jobs" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-[#00ffff] transition-colors">
+            // 0NOTICE JOBS
+          </Link>
+
           <Link href="/contact" className="px-8 py-3 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all rounded-full text-[10px] font-black uppercase tracking-widest">
             CONTACT _
           </Link>
@@ -85,7 +89,8 @@ export default function Header() {
             <Link href="/#engineering" onClick={() => setTimeout(() => setIsOpen(false), 150)} className="block text-[10px] font-black uppercase text-white/60 hover:text-[#00ffff] transition-colors">01 // CORE ENGINEERING</Link>
             <Link href="/#utilities" onClick={() => setTimeout(() => setIsOpen(false), 150)} className="block text-[10px] font-black uppercase text-white/60 hover:text-[#00ffff] transition-colors">02 // SMART UTILITIES</Link>
           </div>
-          <Link href="/navjobportal" onClick={() => setTimeout(() => setIsOpen(false), 150)} className="text-xs font-black uppercase text-white/60 hover:text-[#00ffff] transition-colors">// NAVJOBPORTAL</Link>
+          {/* REBRAND: Updated Mobile Link */}
+          <Link href="/0notice-jobs" onClick={() => setTimeout(() => setIsOpen(false), 150)} className="text-xs font-black uppercase text-white/60 hover:text-[#00ffff] transition-colors">// 0NOTICE JOBS</Link>
           <Link href="/contact" onClick={() => setTimeout(() => setIsOpen(false), 150)} className="text-xs font-black uppercase text-[#8B5CF6] hover:text-white transition-colors">// CONTACT</Link>
         </div>
       )}
