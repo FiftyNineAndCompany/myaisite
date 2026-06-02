@@ -12,12 +12,41 @@ import {
   CheckCircle2, // NEW
   Clock,        // NEW
   Award,        // NEW
-  Star,         // NEW
   BellRing,
   MessageSquare, // NEW
-  X              // NEW
+  X,
+  Star,
+  Quote,
+  TrendingUp              // NEW
 } from 'lucide-react';
 import Link from 'next/link';
+
+const CLIENT_REVIEWS = [
+  {
+    id: 1,
+    name: "Nitesh Kumar",
+    title: "Co-founder at COEO Labs / Innaccel",
+    text: "SAI TECHVERSE delivered exceptional testing services for our medical products. Their immediate joiner deployment saved our Q3 roadmap.",
+    image: "/images/testimonials/nitesh.jpg", // The leading slash is important!
+    rating: 5
+  },
+  {
+    id: 2,
+    name: "Prabin Mishra",
+    title: "Co-founder at TaskRobotics",
+    text: "We partnered with them for a US BPO project and their operational support is unmatched. The team is dedicated, communicative, and adheres strictly to our SLAs. Highly recommended.",
+    image: "https://ui-avatars.com/api/?name=Prabin+Mishra&background=0A0A0A&color=fff",
+    rating: 5
+  },
+  {
+    id: 3,
+    name: "Ruchi Lodhi",
+    title: "Engineering Professor",
+    text: "Their Plagiarism Express service helped me securely verify and submit my research papers to international journals with complete confidence.",
+    image: "/images/testimonials/ruchi.jpg",
+    rating: 5
+  }
+];
 
 export default function HomePage() {
   const [serviceMenu, setServiceMenu] = React.useState(false);
@@ -420,6 +449,118 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+          
+          {/* --- NEW: CLIENT VERIFICATION & REVIEWS SECTION --- */}
+      <section id="reviews" className="py-24 relative border-t border-white/5 bg-[#030303] overflow-hidden w-full">
+        
+        {/* Background Ambience */}
+        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[#00ffff]/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          
+          {/* Header & Graph Section */}
+          <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+            <div>
+              <motion.h4 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="text-[#00ffff] font-black uppercase tracking-[0.4em] text-xs mb-4"
+              >
+                Verification & Trust
+              </motion.h4>
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white"
+              >
+                Our Client's <span className="text-white/30 italic underline decoration-1 underline-offset-8">Feedback</span>
+              </motion.h2>
+            </div>
+
+            {/* THE "11+" GROWTH GRAPH CARD */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-6 p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-[#00ffff]/30 transition-colors"
+            >
+              <div className="text-5xl font-black text-[#00ffff] drop-shadow-[0_0_15px_rgba(0,255,255,0.4)]">
+                11<span className="text-3xl">+</span>
+              </div>
+              <div>
+                {/* CSS Mini Bar Chart */}
+                <div className="flex items-end gap-1.5 mb-2 h-8">
+                  <div className="w-2 h-[30%] bg-white/20 rounded-t-sm"></div>
+                  <div className="w-2 h-[45%] bg-white/40 rounded-t-sm"></div>
+                  <div className="w-2 h-[60%] bg-[#00ffff]/40 rounded-t-sm"></div>
+                  <div className="w-2 h-[80%] bg-[#00ffff]/70 rounded-t-sm"></div>
+                  <div className="w-2 h-[100%] bg-[#00ffff] rounded-t-sm drop-shadow-[0_0_8px_#00ffff]"></div>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <TrendingUp size={12} className="text-[#00ffff]" />
+                  <p className="text-[9px] font-black uppercase tracking-widest text-white/50">Active Partners</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Reviews Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {CLIENT_REVIEWS.map((review, index) => (
+              <motion.div 
+                key={review.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group p-8 rounded-[2rem] bg-[#0A0A0A] border border-white/10 hover:border-[#00ffff]/50 transition-all duration-500 relative flex flex-col justify-between"
+              >
+                {/* Decorative Quote Icon */}
+                <Quote className="absolute top-6 right-6 text-white/5 group-hover:text-[#00ffff]/10 transition-colors" size={48} />
+                
+                <div>
+                  {/* Star Rating */}
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} size={14} className="fill-[#00ffff] text-[#00ffff] drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]" />
+                    ))}
+                  </div>
+                  
+                  {/* Review Text */}
+                  <p className="text-white/70 text-sm leading-relaxed mb-8 italic">
+                    "{review.text}"
+                  </p>
+                </div>
+                       {/* Profile Section with Passport Size Image */}
+                <div className="flex items-center gap-5 pt-6 border-t border-white/5">
+                  
+                  {/* THE FIX: Increased from w-12 h-12 to w-16 h-16 (mobile) and w-20 h-20 (desktop) */}
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#00ffff]/50 transition-colors shrink-0 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                    <img 
+                      src={review.image} 
+                      alt={review.name}
+                      className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    {/* Increased name text size to balance the larger photo */}
+                    <h4 className="text-white font-bold text-base md:text-lg tracking-wide">{review.name}</h4>
+                    <p className="text-[#00ffff] text-[9px] md:text-[10px] font-mono uppercase tracking-widest mt-1">{review.title}</p>
+                  </div>
+                </div>
+                    
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+
+
 
       {/* 5. CEO SECTION - LEADERSHIP */}
       <section id="leadership" className="py-20 md:py-32 bg-[#020202] scroll-mt-24 relative overflow-hidden w-full">
