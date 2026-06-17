@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ["latin"] });
 // 1. Separate the Viewport export
@@ -32,6 +33,8 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
       </body>
+      {/* Drop your specific G- ID right here */}
+      <GoogleAnalytics gaId="G-EJNHF27998" />
     </html>
   );
 }
