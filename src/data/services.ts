@@ -1,6 +1,7 @@
-import { Users, FileCheck, Cpu, Network, Search, Building } from 'lucide-react';
+import { Users, FileCheck, Cpu, Network, Search, Building, Terminal, } from 'lucide-react';
 
 export const TECH_SERVICES = [
+
 
   {
     id: 'testing',
@@ -42,6 +43,21 @@ export const TECH_SERVICES = [
 ];
 
 export const UTILITY_SERVICES = [
+
+  {
+    id: "copyforge-ai",
+    title: "CopyForge Engine",
+    subtitle: "AI Copywriting",
+    description: "Generate high-converting ad copy, emails, and social posts instantly using our advanced framework algorithms.",
+    icon: Terminal, 
+    color: "from-[#e5a00d]/20 to-transparent", 
+    features: [
+      "AIDA & PAS Frameworks",
+      "Zero API Costs",
+      "Instant B2B Lead Generation"
+    ],
+    link: "/copyforge.html" 
+  },
 
   {
     id: 'staffing',

@@ -12,11 +12,28 @@ import {
   ArrowRight,
   Shield,
   Zap,
-  Globe
+  Globe,
+  Terminal
 } from 'lucide-react';
 import Link from 'next/link';
 
 const DETAILED_SERVICES = [
+
+  {
+    id: "copyforge-ai",
+    title: "CopyForge Engine",
+    subtitle: "AI Copywriting",
+    description: "Generate high-converting ad copy, emails, and social posts instantly using our advanced framework algorithms.",
+    icon: Terminal, // Using the Terminal icon from lucide-react
+    color: "from-[#e5a00d]/20 to-transparent", // CopyForge's signature gold color
+    features: [
+      "AIDA & PAS Frameworks",
+      "Zero API Costs",
+      "Instant B2B Lead Generation"
+    ],
+    link: "/services/copyforge.html" // Links directly to your new file!
+  },
+
   {
     id: 'staffing',
     title: 'Staffing Solutions',
@@ -77,6 +94,7 @@ const DETAILED_SERVICES = [
     link: '/services/plagiarism-express',
     color: 'from-red-500/20'
   }
+  
 ];
 
 export default function ServicesPage() {

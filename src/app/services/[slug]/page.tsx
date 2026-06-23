@@ -9,7 +9,8 @@ export function generateStaticParams() {
     { slug: 'it-staffing' },
     { slug: 'it-ai-development' },
     { slug: 'bpo-solutions' },
-    { slug: 'plagiarism-express' }
+    { slug: 'plagiarism-express' },
+    { slug: 'copyforge.html'}
   ];
 }
 

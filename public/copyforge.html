@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CopyForge — AI Copywriting Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg: #09090f;
+            --bg2: #111119;
+            --card: #181822;
+            --card-hover: #1f1f2c;
+            --border: #2a2a3a;
+            --fg: #ededf0;
+            --muted: #7a7a90;
+            --accent: #e5a00d;
+            --accent-light: #fbbf24;
+            --accent-dark: #b47d08;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(229,160,13,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: glowDrift 12s ease-in-out infinite alternate;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -300px;
+            left: -200px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(229,160,13,0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: glowDrift2 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowDrift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-80px, 60px) scale(1.15); }
+        }
+        @keyframes glowDrift2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, -40px) scale(1.1); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg2); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+        /* Form elements */
+        .cf-input, .cf-select, .cf-textarea {
+            width: 100%;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            color: var(--fg);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .cf-input:focus, .cf-select:focus, .cf-textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(229,160,13,0.12);
+        }
+        .cf-textarea { resize: vertical; min-height: 80px; }
+        .cf-select { cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237a7a90' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        .cf-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        /* Buttons */
+        .btn-forge {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #0a0a0f;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-forge:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(229,160,13,0.25); }
+        .btn-forge:active { transform: translateY(0); }
+        .btn-forge:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .btn-sm {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-sm:hover { color: var(--fg); border-color: var(--accent); background: var(--card); }
+
+        /* Tool tabs */
+        .tool-tab {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            background: transparent;
+            font-family: 'Outfit', sans-serif;
+        }
+        .tool-tab:hover { color: var(--fg); background: var(--card); }
+        .tool-tab.active {
+            color: var(--accent);
+            background: rgba(229,160,13,0.08);
+            border-color: rgba(229,160,13,0.2);
+        }
+
+        /* Output card */
+        .output-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: border-color 0.2s;
+            animation: fadeSlideIn 0.4s ease-out both;
+        }
+        .output-card:hover { border-color: rgba(229,160,13,0.3); }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .toast {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--fg);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            animation: toastIn 0.3s ease-out;
+            min-width: 240px;
+        }
+        .toast.out { animation: toastOut 0.25s ease-in forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateX(40px); } }
+
+        /* Loading animation */
+        .forge-loader {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 40px 0;
+            justify-content: center;
+        }
+        .forge-loader .hammer {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* History item */
+        .history-item {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .history-item:hover { border-color: var(--accent); background: var(--card); }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+            .tool-tabs-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .tool-tab { font-size: 12px; padding: 8px 14px; }
+        }
+
+        /* Framework info tooltip */
+        .info-tip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            cursor: help;
+        }
+        .info-tip .tip-text {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--fg);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.5;
+            width: 240px;
+            z-index: 100;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        .info-tip:hover .tip-text { display: block; }
+
+        /* Subtle grid pattern overlay */
+        .grid-pattern {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content-wrap { position: relative; z-index: 1; }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+    <div class="grid-pattern"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="content-wrap">
+        <!-- Navigation -->
+        <nav style="background: rgba(9,9,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);" class="sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div style="background: linear-gradient(135deg, var(--accent), var(--accent-dark));" class="w-9 h-9 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-hammer" style="color: #0a0a0f; font-size: 16px;"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-lg tracking-tight">SAI TECHVERSE|CopyForge</span>
+                        <span style="color: var(--muted);" class="text-xs ml-2 hidden sm:inline">AI Copywriting Engine</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="btn-sm" onclick="toggleHistory()" id="historyBtn">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span class="hidden sm:inline">History</span>
+                        <span id="historyCount" class="badge" style="background: rgba(229,160,13,0.15); color: var(--accent);">0</span>
+                    </button>
+                    <button class="btn-sm" onclick="exportAll()">
+                        <i class="fa-solid fa-download"></i>
+                        <span class="hidden sm:inline">Export</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+            <!-- Tool Tabs -->
+            <div class="tool-tabs-scroll mb-6">
+                <div class="flex gap-2" id="toolTabs">
+                    <button class="tool-tab active" data-tool="adCopy" onclick="switchTool('adCopy')">
+                        <i class="fa-solid fa-bullhorn mr-1.5"></i>Ad Copy
+                    </button>
+                    <button class="tool-tab" data-tool="socialPost" onclick="switchTool('socialPost')">
+                        <i class="fa-solid fa-share-nodes mr-1.5"></i>Social Post
+                    </button>
+                    <button class="tool-tab" data-tool="emailCopy" onclick="switchTool('emailCopy')">
+                        <i class="fa-solid fa-envelope mr-1.5"></i>Email Copy
+                    </button>
+                    <button class="tool-tab" data-tool="blogPost" onclick="switchTool('blogPost')">
+                        <i class="fa-solid fa-pen-nib mr-1.5"></i>Blog Post
+                    </button>
+                    <button class="tool-tab" data-tool="productDesc" onclick="switchTool('productDesc')">
+                        <i class="fa-solid fa-box-open mr-1.5"></i>Product Desc
+                    </button>
+                    <button class="tool-tab" data-tool="headline" onclick="switchTool('headline')">
+                        <i class="fa-solid fa-heading mr-1.5"></i>Headlines
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Grid: Input + Output -->
+            <div class="main-grid" style="display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start;">
+                <!-- Input Panel -->
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; position: sticky; top: 72px;">
+                    <h2 class="font-bold text-base mb-1" id="toolTitle">Ad Copy Generator</h2>
+                    <p style="color: var(--muted);" class="text-xs mb-5" id="toolDesc">Generate high-converting ad copy for Google & Facebook ads</p>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="cf-label">Product / Brand Name</label>
+                            <input type="text" class="cf-input" id="productName" placeholder="e.g., TaskFlow">
+                        </div>
+                        <div>
+                            <label class="cf-label">What does it do?</label>
+                            <textarea class="cf-textarea" id="productDesc" placeholder="Briefly describe your product or service..." rows="3"></textarea>
+                        </div>
+                        <div>
+                            <label class="cf-label">Key Benefit</label>
+                            <input type="text" class="cf-input" id="keyBenefit" placeholder="e.g., Save 5 hours per week">
+                        </div>
+                        <div>
+                            <label class="cf-label">Target Audience</label>
+                            <input type="text" class="cf-input" id="targetAudience" placeholder="e.g., Freelance designers">
+                        </div>
+                        <div>
+                            <label class="cf-label">Pain Point Solved</label>
+                            <input type="text" class="cf-input" id="painPoint" placeholder="e.g., Disorganized project files">
+                        </div>
+                        <div>
+                            <label class="cf-label flex items-center gap-2">
+                                Framework
+                                <span class="info-tip">
+                                    <i class="fa-solid fa-circle-info" style="color: var(--muted); font-size: 11px;"></i>
+                                    <span class="tip-text" id="frameworkTip">AIDA: Attention → Interest → Desire → Action. The most versatile copywriting framework.</span>
+                                </span>
+                            </label>
+                            <select class="cf-select" id="framework" onchange="updateFrameworkTip()">
+                                <option value="aida">AIDA</option>
+                                <option value="pas">PAS (Problem-Agitate-Solve)</option>
+                                <option value="bab">BAB (Before-After-Bridge)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="cf-label">Tone</label>
+                            <select class="cf-select" id="tone">
+                                <option value="professional">Professional</option>
+                                <option value="casual">Casual</option>
+                                <option value="urgent">Urgent</option>
+                                <option value="playful">Playful</option>
+                            </select>
+                        </div>
+
+                        <!-- Tool-specific fields -->
+                        <div id="extraFields"></div>
+
+                        <button class="btn-forge w-full justify-center" onclick="generateCopy()" id="generateBtn">
+                            <i class="fa-solid fa-hammer"></i>
+                            Forge Copy
+                        </button>
+                    </div>
+
+                    <!-- Framework Education -->
+                    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-top: 16px;">
+                        <p class="text-xs font-semibold mb-1" style="color: var(--accent);">
+                            <i class="fa-solid fa-lightbulb mr-1"></i> Framework Tip
+                        </p>
+                        <p class="text-xs leading-relaxed" style="color: var(--muted);" id="frameworkTipText">
+                            AIDA works great for ads because it mirrors the buyer's journey: grab attention, build interest, create desire, then drive action.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div>
+                    <div id="outputArea">
+                        <!-- Empty state -->
+                        <div id="emptyState" class="flex flex-col items-center justify-center py-20 text-center">
+                            <div style="background: var(--card); border: 1px solid var(--border);" class="w-20 h-20 rounded-2xl flex items-center justify-center mb-5">
+                                <i class="fa-solid fa-wand-magic-sparkles text-3xl" style="color: var(--border);"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg mb-2" style="color: var(--muted);">No copy forged yet</h3>
+                            <p class="text-sm max-w-xs" style="color: var(--border);">Fill in your product details on the left, pick a framework and tone, then hit Forge Copy.</p>
+                        </div>
+
+                        <!-- Loading state -->
+                        <div id="loadingState" class="forge-loader" style="display: none;">
+                            <div class="hammer"></div>
+                            <span class="text-sm font-medium" style="color: var(--muted);">Forging your copy...</span>
+                        </div>
+
+                        <!-- Results -->
+                        <div id="resultsContainer" style="display: none;" class="space-y-4"></div>
+                    </div>
+
+                    <!-- History Panel -->
+                    <div id="historyPanel" style="display: none; margin-top: 24px;">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-base">Generation History</h3>
+                            <button class="btn-sm" onclick="clearHistory()">
+                                <i class="fa-solid fa-trash-can"></i> Clear All
+                            </button>
+                        </div>
+                        <div id="historyList" class="space-y-2"></div>
+                        <div id="historyEmpty" class="text-center py-10">
+                            <p class="text-sm" style="color: var(--muted);">No history yet. Generate some copy first.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer style="border-top: 1px solid var(--border);" class="mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p class="text-xs" style="color: var(--muted);">CopyForge — Framework-powered copywriting. No API keys needed.</p>
+                <p class="text-xs" style="color: var(--border);">Runs entirely in your browser. Your data never leaves this page.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    /* =========================================================
+       COPYFORGE — Copy Generation Engine
+       Framework-powered copywriting without external APIs
+       ========================================================= */
+
+    // ---- State ----
+    let currentTool = 'adCopy';
+    let history = JSON.parse(localStorage.getItem('copyforge_history') || '[]');
+    let isGenerating = false;
+
+    // ---- Tool Config ----
+    const toolConfig = {
+        adCopy: {
+            title: 'Ad Copy Generator',
+            desc: 'Generate high-converting ad copy for Google & Facebook ads',
+            extraFields: `
+                <div>
+                    <label class="cf-label">Ad Platform</label>
+                    <select class="cf-select" id="adPlatform">
+                        <option value="google">Google Ads</option>
+                        <option value="facebook">Facebook / Instagram Ads</option>
+                    </select>
+                </div>
+            `
+        },
+        socialPost: {
+            title: 'Social Media Post Generator',
+            desc: 'Create engaging posts for Twitter, LinkedIn, or Instagram',
+            extraFields: `
+                <div>
+                    <label class="cf-label">Platform</label>
+                    <select class="cf-select" id="socialPlatform">
+                        <option value="twitter">Twitter / X</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="instagram">Instagram</option>
+                    </select>
+                </div>
+            `
+        },
+        emailCopy: {
+            title: 'Email Copy Generator',
+            desc: 'Craft subject lines and email body that get opens and clicks',
+            extraFields: `
+                <div>
+                    <label class="cf-label">Email Type</label>
+                    <select class="cf-select" id="emailType">
+                        <option value="promotional">Promotional</option>
+                        <option value="newsletter">Newsletter</option>
+                        <option value="cold">Cold Outreach</option>
+                        <option value="followup">Follow-up</option>
+                    </select>
+                </div>
+            `
+        },
+        blogPost: {
+            title: 'Blog Post Generator',
+            desc: 'Generate outlines, titles, and introductions for blog content',
+            extraFields: `
+                <div>
+                    <label class="cf-label">Blog Type</label>
+                    <select class="cf-select" id="blogType">
+                        <option value="howto">How-To Guide</option>
+                        <option value="listicle">Listicle</option>
+                        <option value="comparison">Comparison</option>
+                        <option value="opinion">Opinion / Thought Leadership</option>
+                    </select>
+                </div>
+            `
+        },
+        productDesc: {
+            title: 'Product Description Generator',
+            desc: 'Write compelling product descriptions for e-commerce and landing pages',
+            extraFields: `
+                <div>
+                    <label class="cf-label">Description Length</label>
+                    <select class="cf-select" id="descLength">
+                        <option value="short">Short (1-2 sentences)</option>
+                        <option value="medium">Medium (paragraph + bullets)</option>
+                        <option value="long">Long (full page copy)</option>
+                    </select>
+                </div>
+            `
+        },
+        headline: {
+            title: 'Headline & Tagline Generator',
+            desc: 'Generate attention-grabbing headlines and memorable taglines',
+            extraFields: ''
+        }
+    };
+
+    // ---- Framework Tips ----
+    const frameworkTips = {
+        aida: 'AIDA works great for ads because it mirrors the buyer\'s journey: grab attention, build interest, create desire, then drive action.',
+        pas: 'PAS is powerful for emotional persuasion. Identify the pain, make it hurt more, then offer relief. Great for social media and email.',
+        bab: 'BAB paints a contrast between current and future states. Perfect for product launches and landing pages.'
+    };
+
+    // ---- Template Banks ----
+    // Each framework has arrays of templates for each section.
+    // {product}, {benefit}, {audience}, {pain}, {desc} are replaced with user input.
+
+    const templates = {
+        aida: {
+            attention: [
+                "Introducing {product} — the smarter way to {benefit}.",
+                "What if you could {benefit}? {product} makes it possible.",
+                "{audience}, stop struggling with {pain}. {product} is here.",
+                "This changes everything for {audience}. Meet {product}.",
+                "Forget what you know about {desc}. {product} just rewrote the rules.",
+                "While others battle {pain}, smart {audience} use {product}.",
+                "Here's the truth about {pain}: it's optional. {product} proves it.",
+                "{benefit} — without the headache. That's the {product} promise."
+            ],
+            interest: [
+                "Here's the thing — {pain} drains more than just time. It drains your energy, your focus, and your results. {product} was built to fix that.",
+                "We studied how {audience} actually work. The gaps were obvious. {product} fills every single one.",
+                "Most solutions for {pain} are band-aids. {product} addresses the root cause: {desc}.",
+                "Every day without {product} is another day spent fighting {pain}. There's a clearly better path.",
+                "What makes {product} different? It's not another tool — it's a fundamentally new approach to {desc}.",
+                "The old way of handling {pain} costs {audience} hours every week. {product} gives that time back."
+            ],
+            desire: [
+                "Imagine opening your day knowing {pain} is handled. That focus? That clarity? That's what {product} delivers.",
+                "Users are already seeing real results — {benefit}, consistently, without the friction. And the momentum only builds.",
+                "This isn't just about {desc}. It's about what it unlocks: the freedom to focus on what actually moves the needle.",
+                "Picture this — no more {pain}. Just smooth, reliable {benefit}. That's not a dream. That's {product}.",
+                "The gap between where you are and where you want to be? {product} closes it. Not in months — starting today."
+            ],
+            action: [
+                "Ready to {benefit}? Get started with {product} today — risk-free.",
+                "Don't let another week slip to {pain}. Try {product} now and see the difference.",
+                "Join the {audience} who already made the switch. Your turn.",
+                "Start now — no setup headaches, no learning curve. Just {benefit}.",
+                "The best time was yesterday. Second best? Right now. Try {product}."
+            ]
+        },
+        pas: {
+            problem: [
+                "Let's be honest — {pain} is exhausting. And if you're an {audience}, you already know this too well.",
+                "Here's a hard truth: {pain} is costing you more than you think. Time, energy, opportunity.",
+                "Every {audience} knows the feeling — that moment when {pain} hits again. It's frustrating, isn't it?",
+                "The number one thing holding {audience} back? It's not talent. It's {pain}.",
+                "If you've been putting up with {pain} for weeks (or months), you're not alone. Most {audience} do."
+            ],
+            agitation: [
+                "And it's not just the time you lose. It's the mental clutter. The context-switching. The subtle dread of knowing it's still there tomorrow.",
+                "Each day you tolerate {pain}, you fall further behind. The gap between you and your goals keeps widening — quietly.",
+                "Think about what you could accomplish if {pain} wasn't eating your attention. Now multiply that by every day this year.",
+                "The worst part? Most {audience} just accept {pain} as 'part of the job.' It's not. It's a solvable problem that's being ignored.",
+                "It builds up slowly. A few minutes here, an hour there. Before you know it, {pain} has consumed a full workday — and you can't get it back."
+            ],
+            solution: [
+                "That's exactly why {product} exists. It eliminates {pain} by {desc} — so you can get back to what matters.",
+                "Enter {product} — the first solution designed specifically to make {pain} disappear for {audience}.",
+                "{product} started with one question: what if {pain} just... wasn't a thing anymore? Turns out, it doesn't have to be.",
+                "With {product}, {pain} becomes a non-issue. Here's how: {desc}. Simple, fast, and it actually works.",
+                "This is the fix {audience} have been waiting for. {product} handles {pain} automatically — {benefit}, starting day one."
+            ]
+        },
+        bab: {
+            before: [
+                "Right now, if you're like most {audience}, your workflow looks like this: juggle {pain}, patch things together, and hope nothing falls through the cracks.",
+                "Before {product}, the typical {audience} experience meant constantly fighting {pain} — losing hours, missing details, and feeling like you're always one step behind.",
+                "The current reality for {audience}? {pain} is just part of the routine. You've built workarounds, accepted the friction, and lowered your expectations.",
+                "Today, your process probably involves manual effort around {pain} — copying, switching tools, double-checking. It works, barely."
+            ],
+            after: [
+                "Now imagine a different reality: {benefit}, consistently, without thinking about it. Your workflow flows. Your output quality jumps. You actually leave work on time.",
+                "Picture this instead — you open your tools and everything related to {pain} is already handled. Clean, organized, ready. That's the after-state.",
+                "In this new version of your workday, {pain} doesn't exist. Instead, you have {benefit}. More focus, more output, less stress.",
+                "The after-state is simple: {benefit}. No more firefighting around {pain}. Just clean, predictable progress."
+            ],
+            bridge: [
+                "The bridge between 'before' and 'after'? {product}. It handles {desc} so you don't have to — and the transition is seamless.",
+                "That's where {product} comes in. One tool, one setup, and {pain} becomes a thing of the past. {benefit} is the new normal.",
+                "Getting there is easier than you think. {product} automates {desc}, so you go from chaos to clarity — no migration headaches, no new habits to learn.",
+                "The gap between where you are and that 'after' state? {product} closes it. Not in weeks — in minutes."
+            ]
+        }
+    };
+
+    // ---- Tone Modifiers ----
+    // These are prepended/appended phrases and word substitutions per tone
+    const toneModifiers = {
+        professional: {
+            prefix: '',
+            suffix: '',
+            words: { 'get': 'obtain', 'use': 'leverage', 'try': 'evaluate', 'buy': 'invest in', 'help': 'empower', 'fast': 'efficient', 'easy': 'streamlined', 'big': 'substantial', 'good': 'exceptional' }
+        },
+        casual: {
+            prefix: '',
+            suffix: '',
+            words: { 'leverage': 'use', 'obtain': 'get', 'invest in': 'grab', 'evaluate': 'try out', 'empower': 'help', 'efficient': 'fast', 'streamlined': 'easy', 'substantial': 'big', 'exceptional': 'great' }
+        },
+        urgent: {
+            prefix: '',
+            suffix: '',
+            words: { 'get': 'get NOW', 'try': 'try today', 'start': 'start immediately', 'join': 'join right now' },
+            appendToAction: ' — before it\'s too late.'
+        },
+        playful: {
+            prefix: '',
+            suffix: '',
+            words: { 'problem': 'plot twist', 'solution': 'plot armor', 'struggle': 'dance with chaos', 'work': 'adventure', 'tool': 'sidekick' },
+            emojis: ['\u{1F525}', '\u{26A1}', '\u{1F680}', '\u{1F4AA}', '\u{2728}']
+        }
+    };
+
+    // ---- Platform-specific templates ----
+    const platformTemplates = {
+        // Social media post structures
+        social: {
+            twitter: [
+                "{hook}\n\n{body}\n\n{cta}",
+                "{hook}\n\n{body} {cta}",
+                "{body}\n\n{hook}\n\n{cta}"
+            ],
+            linkedin: [
+                "{hook}\n\n{body}\n\n{keyPoint}\n\n{cta}\n\n{hashtags}",
+                "{hook}\n\n{body}\n\n{cta}\n\n{hashtags}",
+                "{body}\n\n{hook}\n\n{keyPoint}\n\n{cta}\n\n{hashtags}"
+            ],
+            instagram: [
+                "{hook}\n\n{body}\n\n{cta}\n\n{hashtags}",
+                "{hook}\n\n{body}\n\n.\n.\n.\n{cta}\n\n{hashtags}"
+            ]
+        },
+        // Email subject line formulas
+        emailSubjects: {
+            promotional: [
+                "Introducing {product}: {benefit}",
+                "Finally, a better way to {benefit}",
+                "{product} is here — and {audience} are going to love it",
+                "Stop {pain}. Start {benefit}.",
+                "You asked, we built it: meet {product}",
+                "The {audience} guide to {benefit}"
+            ],
+            newsletter: [
+                "This week: how to {benefit}",
+                "3 things every {audience} should know about {pain}",
+                "Your weekly roundup: {desc} insights",
+                "Read: why {pain} doesn't have to be normal",
+                "Inside this issue: {benefit}, explained"
+            ],
+            cold: [
+                "Quick question about {pain}",
+                "Helping {audience} with {pain}",
+                "{benefit} — is this on your radar?",
+                "Saw you're focused on {desc} — thought of you",
+                "A better approach to {pain} for {audience}"
+            ],
+            followup: [
+                "Following up: {benefit}",
+                "Just checking in on {pain}",
+                "Did you get a chance to look at {product}?",
+                "Bumping this up — {benefit}",
+                "Still thinking about {pain}? Here's an update."
+            ]
+        },
+        // Blog title formulas
+        blogTitles: {
+            howto: [
+                "How to {benefit} in {timeframe} (Step-by-Step Guide)",
+                "The Complete Guide to {benefit} for {audience}",
+                "How to Stop {pain} and Start {benefit} — A Practical Guide",
+                "{benefit}: How {audience} Are Doing It Without the {pain}"
+            ],
+            listicle: [
+                "{number} Ways to {benefit} (That Actually Work)",
+                "{number} Signs You're Still Battling {pain} — And How to Fix Each One",
+                "Top {number} Tools for {audience} to {benefit}",
+                "{number} Mistakes {audience} Make With {pain} (And What to Do Instead)"
+            ],
+            comparison: [
+                "{product} vs. Traditional {desc}: Which Actually Delivers?",
+                "Why {audience} Are Switching to {product} for {benefit}",
+                "Old Way vs. New Way: {pain} Doesn't Stand a Chance",
+                "Is {product} Worth It? An Honest Breakdown for {audience}"
+            ],
+            opinion: [
+                "Why Most {audience} Get {pain} Wrong (And What to Do Instead)",
+                "The Real Reason {pain} Persists — And How {product} Changes the Game",
+                "I Spent Months Studying {pain}. Here's What {audience} Get Wrong.",
+                "Unpopular Opinion: {pain} Is a Choice. Here's Why."
+            ]
+        },
+        // Headline formulas
+        headlines: {
+            howto: [
+                "How to {benefit} — Even If You've Tried Everything",
+                "How to {benefit} Without {pain}",
+                "How {product} Helps {audience} {benefit} in Record Time"
+            ],
+            number: [
+                "{number} Reasons {product} Is the Best Way to {benefit}",
+                "{number} Ways {product} Eliminates {pain} for {audience}",
+                "{number} Things {audience} Get Wrong About {pain}"
+            ],
+            question: [
+                "Still Struggling With {pain}? There's a Better Way.",
+                "What If {benefit} Was Easier Than You Think?",
+                "Why Do {audience} Keep Putting Up With {pain}?"
+            ],
+            command: [
+                "Stop {pain}. Start {benefit}.",
+                "Take Control of {desc} With {product}.",
+                "Ditch the Old Way. {product} Is Here."
+            ],
+            news: [
+                "Introducing {product}: The New Standard for {benefit}",
+                "Announcing {product} — Built to End {pain} for {audience}",
+                "Breaking: {product} Just Changed How {audience} {benefit}"
+            ]
+        }
+    };
+
+    // ---- Helper Functions ----
+    function pick(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function pickN(arr, n) {
+        const shuffled = [...arr].sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, Math.min(n, arr.length));
+    }
+
+    function fillTemplate(tpl, data) {
+        return tpl
+            .replace(/\{product\}/g, data.product || 'this product')
+            .replace(/\{benefit\}/g, data.benefit || 'get better results')
+            .replace(/\{audience\}/g, data.audience || 'users')
+            .replace(/\{pain\}/g, data.pain || 'the old way')
+            .replace(/\{desc\}/g, data.desc || 'solving your problem')
+            .replace(/\{timeframe\}/g, pick(['minutes', 'days', 'a week', 'no time']))
+            .replace(/\{number\}/g, pick(['5', '7', '10', '3', '8']))
+            .replace(/\{metric\}/g, pick(['40%', '3x', '50%', '2x', '60%']));
+    }
+
+    function applyTone(text, tone) {
+        const mod = toneModifiers[tone];
+        if (!mod) return text;
+        let result = text;
+        // Apply word substitutions
+        if (mod.words) {
+            for (const [from, to] of Object.entries(mod.words)) {
+                const regex = new RegExp('\\b' + from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+                result = result.replace(regex, to);
+            }
+        }
+        // Add emojis for playful tone
+        if (mod.emojis && mod.emojis.length > 0) {
+            const sentences = result.split(/(?<=[.!?])\s+/);
+            if (sentences.length > 1) {
+                const idx = Math.floor(Math.random() * (sentences.length - 1)) + 1;
+                sentences[idx] = sentences[idx] + ' ' + pick(mod.emojis);
+                result = sentences.join(' ');
+            }
+        }
+        return result;
+    }
+
+    function buildFrameworkCopy(framework, data, tone) {
+        const fw = templates[framework];
+        if (!fw) return [];
+
+        const sections = Object.keys(fw);
+        const variations = [];
+
+        for (let v = 0; v < 3; v++) {
+            let parts = [];
+            for (const section of sections) {
+                const pool = fw[section];
+                // Pick a template that hasn't been used in this variation
+                let template = pick(pool);
+                let filled = fillTemplate(template, data);
+                filled = applyTone(filled, tone);
+
+                // Urgent tone: append to action/solution/bridge
+                if (tone === 'urgent' && toneModifiers.urgent.appendToAction) {
+                    if (section === 'action' || section === 'solution' || section === 'bridge') {
+                        filled += toneModifiers.urgent.appendToAction;
+                    }
+                }
+
+                parts.push({ section, text: filled });
+            }
+            variations.push(parts);
+        }
+
+        return variations;
+    }
+
+    // ---- Tool-Specific Generators ----
+
+    function generateAdCopy(data, tone, framework) {
+        const variations = buildFrameworkCopy(framework, data, tone);
+        const platform = document.getElementById('adPlatform')?.value || 'google';
+        const results = [];
+
+        variations.forEach((parts, idx) => {
+            if (platform === 'google') {
+                // Google Ads: Headline (30 chars max) + Description (90 chars max)
+                const attentionText = parts.find(p => p.section === 'attention')?.text || '';
+                const fullText = parts.map(p => p.text).join(' ');
+                const headline = attentionText.length > 30 ? attentionText.substring(0, 28) + '...' : attentionText;
+                const description = fullText.length > 90 ? fullText.substring(0, 88) + '...' : fullText;
+                results.push({
+                    label: `Variation ${idx + 1} — Google Ads`,
+                    sections: [
+                        { title: 'Headline', text: headline, badge: `${headline.length}/30` },
+                        { title: 'Description', text: description, badge: `${description.length}/90` }
+                    ]
+                });
+            } else {
+                // Facebook Ads: Primary Text + Headline
+                const fullText = parts.map(p => p.text).join('\n\n');
+                const attentionText = parts.find(p => p.section === 'attention')?.text || '';
+                results.push({
+                    label: `Variation ${idx + 1} — Facebook Ad`,
+                    sections: [
+                        { title: 'Primary Text', text: fullText },
+                        { title: 'Headline', text: attentionText }
+                    ]
+                });
+            }
+        });
+
+        return results;
+    }
+
+    function generateSocialPost(data, tone, framework) {
+        const platform = document.getElementById('socialPlatform')?.value || 'twitter';
+        const variations = buildFrameworkCopy(framework, data, tone);
+        const results = [];
+
+        const hashtagPool = [
+            `#${data.product ? data.product.replace(/\s+/g, '') : 'Product'}`,
+            '#Productivity', '#Innovation', '#GameChanger', '#WorkSmarter',
+            '#LifeHack', '#StartupLife', '#TechTools', '#Growth', '#Efficiency'
+        ];
+
+        variations.forEach((parts, idx) => {
+            const hook = parts.find(p => p.section === 'attention' || p.section === 'problem' || p.section === 'before')?.text || '';
+            const bodyParts = parts.filter(p => p.section !== 'attention' && p.section !== 'problem' && p.section !== 'before' && p.section !== 'action' && p.section !== 'solution' && p.section !== 'bridge');
+            const body = bodyParts.map(p => p.text).join('\n\n');
+            const cta = parts.find(p => p.section === 'action' || p.section === 'solution' || p.section === 'bridge')?.text || `Try ${data.product || 'it'} today.`;
+            const keyPoint = bodyParts.length > 0 ? bodyParts[0].text : body;
+
+            let hashtags = pickN(hashtagPool, platform === 'twitter' ? 3 : platform === 'instagram' ? 8 : 4).join(' ');
+
+            let postTemplate;
+            if (platform === 'twitter') {
+                postTemplate = `${hook}\n\n${body}\n\n${cta}`;
+            } else if (platform === 'linkedin') {
+                postTemplate = `${hook}\n\n${body}\n\n${keyPoint}\n\n${cta}\n\n${hashtags}`;
+            } else {
+                postTemplate = `${hook}\n\n${body}\n\n.\n.\n.\n${cta}\n\n${hashtags}`;
+            }
+
+            // Trim for Twitter
+            if (platform === 'twitter' && postTemplate.length > 280) {
+                postTemplate = postTemplate.substring(0, 277) + '...';
+            }
+
+            results.push({
+                label: `Variation ${idx + 1} — ${platform.charAt(0).toUpperCase() + platform.slice(1)}`,
+                sections: [
+                    { title: 'Post', text: postTemplate, badge: platform === 'twitter' ? `${postTemplate.length}/280` : null }
+                ]
+            });
+        });
+
+        return results;
+    }
+
+    function generateEmailCopy(data, tone, framework) {
+        const emailType = document.getElementById('emailType')?.value || 'promotional';
+        const variations = buildFrameworkCopy(framework, data, tone);
+        const results = [];
+
+        const subjectPool = platformTemplates.emailSubjects[emailType] || platformTemplates.emailSubjects.promotional;
+
+        variations.forEach((parts, idx) => {
+            const subject = fillTemplate(pick(subjectPool), data);
+            const bodyParts = parts.map(p => p.text);
+            let emailBody = '';
+
+            if (emailType === 'cold') {
+                emailBody = `Hi there,\n\n${bodyParts[0]}\n\n${bodyParts.slice(1).join('\n\n')}\n\nBest regards`;
+            } else if (emailType === 'followup') {
+                emailBody = `Hi,\n\nJust wanted to follow up on my previous message.\n\n${bodyParts.join('\n\n')}\n\nWould love to hear your thoughts.`;
+            } else {
+                emailBody = bodyParts.join('\n\n');
+            }
+
+            results.push({
+                label: `Variation ${idx + 1} — ${emailType.charAt(0).toUpperCase() + emailType.slice(1)} Email`,
+                sections: [
+                    { title: 'Subject Line', text: applyTone(subject, tone), badge: `${subject.length} chars` },
+                    { title: 'Email Body', text: applyTone(emailBody, tone) }
+                ]
+            });
+        });
+
+        return results;
+    }
+
+    function generateBlogPost(data, tone, framework) {
+        const blogType = document.getElementById('blogType')?.value || 'howto';
+        const titlePool = platformTemplates.blogTitles[blogType] || platformTemplates.blogTitles.howto;
+        const results = [];
+
+        for (let i = 0; i < 3; i++) {
+            const title = fillTemplate(pick(titlePool), data);
+            const fwVariation = buildFrameworkCopy(framework, data, tone)[i % buildFrameworkCopy(framework, data, tone).length];
+            const intro = fwVariation.map(p => p.text).join(' ');
+
+            let outline = '';
+            if (blogType === 'howto') {
+                outline = `1. Understanding ${data.pain || 'the problem'}\n2. Why traditional approaches fall short\n3. Introducing ${data.product || 'a new approach'}\n4. Step-by-step: How to ${data.benefit || 'get results'}\n5. Common mistakes to avoid\n6. Measuring your success\n7. Conclusion & next steps`;
+            } else if (blogType === 'listicle') {
+                outline = `1. Automate repetitive tasks\n2. Streamline team communication\n3. Use data-driven decision making\n4. Eliminate unnecessary meetings\n5. Invest in the right tools\n6. Build repeatable processes\n7. Track and optimize consistently`;
+            } else if (blogType === 'comparison') {
+                outline = `1. The traditional approach: what it looks like\n2. The hidden costs of the old way\n3. How ${data.product || 'the new approach'} is different\n4. Feature-by-feature comparison\n5. Real-world results from ${data.audience || 'users'}\n6. Making the switch: what to expect\n7. Final verdict`;
+            } else {
+                outline = `1. The current state of ${data.desc || 'the industry'}\n2. What most ${data.audience || 'people'} get wrong\n3. The data behind a better approach\n4. How ${data.product || 'this solution'} challenges the status quo\n5. What the future looks like\n6. My take: why this matters now`;
+            }
+
+            results.push({
+                label: `Variation ${i + 1} — ${blogType.charAt(0).toUpperCase() + blogType.slice(1)}`,
+                sections: [
+                    { title: 'Title', text: applyTone(title, tone) },
+                    { title: 'Introduction', text: applyTone(intro, tone) },
+                    { title: 'Outline', text: outline }
+                ]
+            });
+        }
+
+        return results;
+    }
+
+    function generateProductDesc(data, tone, framework) {
+        const descLength = document.getElementById('descLength')?.value || 'medium';
+        const results = [];
+
+        for (let i = 0; i < 3; i++) {
+            const fwVariation = buildFrameworkCopy(framework, data, tone)[i % buildFrameworkCopy(framework, data, tone).length];
+            const hook = fwVariation.find(p => p.section === 'attention' || p.section === 'problem' || p.section === 'before')?.text || '';
+            const body = fwVariation.filter(p => p.section !== 'action' && p.section !== 'solution' && p.section !== 'bridge').map(p => p.text).join(' ');
+            const cta = fwVariation.find(p => p.section === 'action' || p.section === 'solution' || p.section === 'bridge')?.text || '';
+
+            const bullets = [
+                `${data.benefit || 'Achieve better results'} — without the usual friction`,
+                `Built specifically for ${data.audience || 'professionals'} who need real solutions`,
+                `Eliminates ${data.pain || 'common pain points'} once and for all`,
+                `Clean, intuitive ${data.desc || 'experience'} that just works`
+            ];
+
+            if (descLength === 'short') {
+                results.push({
+                    label: `Variation ${i + 1} — Short`,
+                    sections: [
+                        { title: 'Description', text: `${hook} ${body}` }
+                    ]
+                });
+            } else if (descLength === 'medium') {
+                results.push({
+                    label: `Variation ${i + 1} — Medium`,
+                    sections: [
+                        { title: 'Description', text: `${hook} ${body}` },
+                        { title: 'Key Features', text: bullets.map(b => `• ${b}`).join('\n') },
+                        { title: 'Call to Action', text: cta }
+                    ]
+                });
+            } else {
+                results.push({
+                    label: `Variation ${i + 1} — Long Form`,
+                    sections: [
+                        { title: 'Headline', text: hook },
+                        { title: 'Full Description', text: `${body}\n\n${data.product || 'This product'} was designed from the ground up for ${data.audience || 'users'} who are tired of ${data.pain || 'the status quo'}. Every feature, every interaction, every detail serves one purpose: ${data.benefit || 'to make your life easier'}.\n\nThe difference is in the details. Where other solutions add complexity, ${data.product || 'we'} remove it. Where others require training, ${data.product || 'we'} feel natural from day one.` },
+                        { title: 'Key Features', text: bullets.map(b => `• ${b}`).join('\n') },
+                        { title: 'Call to Action', text: cta }
+                    ]
+                });
+            }
+        }
+
+        return results;
+    }
+
+    function generateHeadlines(data, tone, framework) {
+        const headlineTypes = Object.keys(platformTemplates.headlines);
+        const results = [];
+
+        // Generate 2 headlines per type = 10 total, grouped by type
+        headlineTypes.forEach(type => {
+            const pool = platformTemplates.headlines[type];
+            const selected = pickN(pool, 2);
+            const sections = selected.map(tpl => {
+                const filled = fillTemplate(tpl, data);
+                return { title: '', text: applyTone(filled, tone) };
+            });
+
+            const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
+            const typeDesc = {
+                howto: 'Promise a specific outcome with a process',
+                number: 'Use numbers for specificity and curiosity',
+                question: 'Engage by addressing the reader directly',
+                command: 'Bold, direct statements that demand attention',
+                news: 'Announcement-style for launches and updates'
+            };
+
+            results.push({
+                label: `${typeLabel} Headlines`,
+                description: typeDesc[type] || '',
+                sections: sections
+            });
+        });
+
+        return results;
+    }
+
+    // ---- Main Generate Function ----
+    function generateCopy() {
+        if (isGenerating) return;
+
+        // Gather inputs
+        const data = {
+            product: document.getElementById('productName').value.trim(),
+            desc: document.getElementById('productDesc').value.trim(),
+            benefit: document.getElementById('keyBenefit').value.trim(),
+            audience: document.getElementById('targetAudience').value.trim(),
+            pain: document.getElementById('painPoint').value.trim()
+        };
+
+        // Validation
+        if (!data.product && !data.desc) {
+            showToast('Please enter at least a product name or description.', 'error');
+            return;
+        }
+
+        const tone = document.getElementById('tone').value;
+        const framework = document.getElementById('framework').value;
+
+        // Show loading
+        isGenerating = true;
+        document.getElementById('generateBtn').disabled = true;
+        document.getElementById('emptyState').style.display = 'none';
+        document.getElementById('resultsContainer').style.display = 'none';
+        document.getElementById('loadingState').style.display = 'flex';
+
+        // Simulate generation delay for UX
+        setTimeout(() => {
+            let results;
+            switch (currentTool) {
+                case 'adCopy': results = generateAdCopy(data, tone, framework); break;
+                case 'socialPost': results = generateSocialPost(data, tone, framework); break;
+                case 'emailCopy': results = generateEmailCopy(data, tone, framework); break;
+                case 'blogPost': results = generateBlogPost(data, tone, framework); break;
+                case 'productDesc': results = generateProductDesc(data, tone, framework); break;
+                case 'headline': results = generateHeadlines(data, tone, framework); break;
+                default: results = generateAdCopy(data, tone, framework);
+            }
+
+            renderResults(results);
+
+            // Save to history
+            const historyEntry = {
+                id: Date.now(),
+                tool: currentTool,
+                data: data,
+                tone: tone,
+                framework: framework,
+                results: results,
+                timestamp: new Date().toISOString()
+            };
+            history.unshift(historyEntry);
+            if (history.length > 50) history = history.slice(0, 50);
+            localStorage.setItem('copyforge_history', JSON.stringify(history));
+            updateHistoryCount();
+
+            // Hide loading
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+            document.getElementById('generateBtn').disabled = false;
+            isGenerating = false;
+
+            showToast('Copy forged successfully!', 'success');
+        }, 800 + Math.random() * 600);
+    }
+
+    // ---- Render Results ----
+    function renderResults(results) {
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = '';
+
+        results.forEach((result, rIdx) => {
+            const card = document.createElement('div');
+            card.className = 'output-card';
+            card.style.animationDelay = `${rIdx * 0.1}s`;
+
+            let headerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-sm">${result.label}</h3>
+                    <div class="flex gap-2">
+                        <button class="btn-sm" onclick="copyResultCard(this)" title="Copy all">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                        <button class="btn-sm" onclick="saveResultCard(this)" title="Save to favorites">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            if (result.description) {
+                headerHTML += `<p class="text-xs mb-4" style="color: var(--muted);">${result.description}</p>`;
+            }
+
+            let sectionsHTML = '';
+            result.sections.forEach((section, sIdx) => {
+                if (section.title) {
+                    sectionsHTML += `
+                        <div class="${sIdx > 0 ? 'mt-4 pt-4' : ''}" ${sIdx > 0 ? 'style="border-top: 1px solid var(--border);"' : ''}>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--accent);">${section.title}</span>
+                                ${section.badge ? `<span class="text-xs" style="color: var(--muted);">${section.badge}</span>` : ''}
+                            </div>
+                            <div class="text-sm leading-relaxed whitespace-pre-line" style="color: #c8c8d4;">${escapeHTML(section.text)}</div>
+                            <div class="flex items-center gap-3 mt-2">
+                                <span class="text-xs" style="color: var(--border);">${section.text.split(/\s+/).filter(Boolean).length} words · ${section.text.length} chars</span>
+                                <button class="btn-sm" style="padding: 3px 8px; font-size: 11px;" onclick="copyText(this, \`${escapeForAttr(section.text)}\`)">
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Headline without title (headline tool)
+                    sectionsHTML += `
+                        <div class="py-2 ${sIdx > 0 ? 'mt-1' : ''}" style="border-bottom: 1px solid var(--border);">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium" style="color: #c8c8d4;">${escapeHTML(section.text)}</div>
+                                <div class="flex items-center gap-2 ml-4 shrink-0">
+                                    <span class="text-xs" style="color: var(--border);">${section.text.length} chars</span>
+                                    <button class="btn-sm" style="padding: 3px 8px; font-size: 11px;" onclick="copyText(this, \`${escapeForAttr(section.text)}\`)">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            card.innerHTML = headerHTML + sectionsHTML;
+            container.appendChild(card);
+        });
+    }
+
+    function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function escapeForAttr(str) {
+        return str.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+    }
+
+    // ---- Copy Functions ----
+    function copyText(btn, text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+            btn.style.color = 'var(--success)';
+            btn.style.borderColor = 'var(--success)';
+            setTimeout(() => {
+                btn.innerHTML = original;
+                btn.style.color = '';
+                btn.style.borderColor = '';
+            }, 1500);
+        });
+    }
+
+    function copyResultCard(btn) {
+        const card = btn.closest('.output-card');
+        const textEls = card.querySelectorAll('.whitespace-pre-line, .font-medium');
+        const text = Array.from(textEls).map(el => el.textContent.trim()).join('\n\n');
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Copied to clipboard!', 'success');
+        });
+    }
+
+    function saveResultCard(btn) {
+        const card = btn.closest('.output-card');
+        const icon = btn.querySelector('i');
+        if (icon.classList.contains('fa-regular')) {
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid');
+            btn.style.color = 'var(--accent)';
+            btn.style.borderColor = 'var(--accent)';
+            showToast('Saved to favorites!', 'success');
+        } else {
+            icon.classList.remove('fa-solid');
+            icon.classList.add('fa-regular');
+            btn.style.color = '';
+            btn.style.borderColor = '';
+        }
+    }
+
+    // ---- Toast System ----
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+
+        const iconMap = {
+            success: '<i class="fa-solid fa-circle-check" style="color: var(--success);"></i>',
+            error: '<i class="fa-solid fa-circle-xmark" style="color: var(--error);"></i>',
+            info: '<i class="fa-solid fa-circle-info" style="color: var(--accent);"></i>'
+        };
+
+        toast.innerHTML = `${iconMap[type] || iconMap.info} <span>${message}</span>`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('out');
+            setTimeout(() => toast.remove(), 250);
+        }, 2500);
+    }
+
+    // ---- Tool Switching ----
+    function switchTool(tool) {
+        currentTool = tool;
+        const config = toolConfig[tool];
+
+        // Update tabs
+        document.querySelectorAll('.tool-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.tool === tool);
+        });
+
+        // Update panel
+        document.getElementById('toolTitle').textContent = config.title;
+        document.getElementById('toolDesc').textContent = config.desc;
+        document.getElementById('extraFields').innerHTML = config.extraFields;
+
+        // Reset output
+        document.getElementById('emptyState').style.display = 'flex';
+        document.getElementById('resultsContainer').style.display = 'none';
+        document.getElementById('loadingState').style.display = 'none';
+    }
+
+    // ---- Framework Tip ----
+    function updateFrameworkTip() {
+        const fw = document.getElementById('framework').value;
+        document.getElementById('frameworkTipText').textContent = frameworkTips[fw] || '';
+        const tipEl = document.getElementById('frameworkTip');
+        const tipTexts = {
+            aida: 'AIDA: Attention → Interest → Desire → Action. The most versatile copywriting framework.',
+            pas: 'PAS: Problem → Agitate → Solution. Powerful for emotional persuasion.',
+            bab: 'BAB: Before → After → Bridge. Paints a contrast between current and desired states.'
+        };
+        tipEl.textContent = tipTexts[fw] || '';
+    }
+
+    // ---- History ----
+    function toggleHistory() {
+        const panel = document.getElementById('historyPanel');
+        const isVisible = panel.style.display !== 'none';
+        panel.style.display = isVisible ? 'none' : 'block';
+        if (!isVisible) renderHistory();
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        const empty = document.getElementById('historyEmpty');
+
+        if (history.length === 0) {
+            list.innerHTML = '';
+            empty.style.display = 'block';
+            return;
+        }
+
+        empty.style.display = 'none';
+        list.innerHTML = history.map((entry, idx) => {
+            const date = new Date(entry.timestamp);
+            const timeStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const toolName = toolConfig[entry.tool]?.title || entry.tool;
+            return `
+                <div class="history-item" onclick="loadHistory(${idx})">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-semibold" style="color: var(--accent);">${entry.data.product || 'Untitled'}</span>
+                        <span class="text-xs" style="color: var(--border);">${timeStr}</span>
+                    </div>
+                    <p class="text-xs" style="color: var(--muted);">${toolName} · ${entry.framework.toUpperCase()} · ${entry.tone}</p>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function loadHistory(idx) {
+        const entry = history[idx];
+        if (!entry) return;
+
+        // Fill inputs
+        document.getElementById('productName').value = entry.data.product || '';
+        document.getElementById('productDesc').value = entry.data.desc || '';
+        document.getElementById('keyBenefit').value = entry.data.benefit || '';
+        document.getElementById('targetAudience').value = entry.data.audience || '';
+        document.getElementById('painPoint').value = entry.data.pain || '';
+        document.getElementById('framework').value = entry.framework || 'aida';
+        document.getElementById('tone').value = entry.tone || 'professional';
+
+        // Switch tool
+        switchTool(entry.tool);
+
+        // Set tool-specific fields
+        setTimeout(() => {
+            const platformEl = document.getElementById('adPlatform') || document.getElementById('socialPlatform') || document.getElementById('emailType') || document.getElementById('blogType') || document.getElementById('descLength');
+            // Restore results directly
+            renderResults(entry.results);
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+        }, 50);
+
+        showToast('History entry loaded', 'info');
+    }
+
+    function clearHistory() {
+        history = [];
+        localStorage.removeItem('copyforge_history');
+        updateHistoryCount();
+        renderHistory();
+        showToast('History cleared', 'info');
+    }
+
+    function updateHistoryCount() {
+        document.getElementById('historyCount').textContent = history.length;
+    }
+
+    // ---- Export ----
+    function exportAll() {
+        const resultsContainer = document.getElementById('resultsContainer');
+        if (resultsContainer.style.display === 'none') {
+            showToast('Generate some copy first before exporting.', 'error');
+            return;
+        }
+
+        const cards = resultsContainer.querySelectorAll('.output-card');
+        let exportText = `COPYFORGE — Generated Copy\n${'='.repeat(40)}\n\n`;
+
+        cards.forEach(card => {
+            const label = card.querySelector('h3')?.textContent || '';
+            exportText += `--- ${label} ---\n\n`;
+            const textEls = card.querySelectorAll('.whitespace-pre-line, .font-medium');
+            textEls.forEach(el => {
+                exportText += el.textContent.trim() + '\n\n';
+            });
+            exportText += '\n';
+        });
+
+        const blob = new Blob([exportText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `copyforge-${Date.now()}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Exported as text file!', 'success');
+    }
+
+    // ---- Keyboard Shortcut ----
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            generateCopy();
+        }
+    });
+
+    // ---- Init ----
+    updateHistoryCount();
+    updateFrameworkTip();
+
+    // Prefill demo data for first-time users
+    if (!localStorage.getItem('copyforge_visited')) {
+        localStorage.setItem('copyforge_visited', 'true');
+        document.getElementById('productName').value = 'TaskFlow';
+        document.getElementById('productDesc').value = 'A project management tool that automates task organization and team coordination for small teams.';
+        document.getElementById('keyBenefit').value = 'Save 5 hours per week on project admin';
+        document.getElementById('targetAudience').value = 'Small business owners and freelancers';
+        document.getElementById('painPoint').value = 'Scattered tasks across emails, chats, and spreadsheets';
+    }
+    </script>
+</body>
+</html>
