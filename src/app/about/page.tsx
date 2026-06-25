@@ -83,7 +83,7 @@ export default function AboutPage() {
                 <a href="#" className="p-3 bg-white/10 rounded-full hover:bg-[#00ffff] hover:text-black transition-all">
                   <Linkedin size={20} />
                 </a>
-                <a href="mailto:info@saitechverse.com" className="p-3 bg-white/10 rounded-full hover:bg-[#00ffff] hover:text-black transition-all">
+                <a href="mailto:connect@saitechverse.com" className="p-3 bg-white/10 rounded-full hover:bg-[#00ffff] hover:text-black transition-all">
                   <Mail size={20} />
                 </a>
               </div>
